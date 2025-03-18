@@ -45,9 +45,14 @@ public:
     void setIndegree(unsigned int indegree);
     void setDist(double dist);
     void setPath(Edge<T> *path);
-    Edge<T> * addEdge(Vertex<T> *dest, double w);
+    Edge<T> * addEdge(Vertex<T> *dest, int Driving, int Walking);
     bool removeEdge(T in);
     void removeOutgoingEdges();
+
+    void setLocation(std::string Location);
+    void setCode(std::string Code);
+    std::string getCode() const;
+    void setParking(bool Parking);
 
     friend class MutablePriorityQueue<Vertex>;
 protected:
@@ -67,6 +72,11 @@ protected:
     int queueIndex = 0; 		// required by MutablePriorityQueue and UFDS
 
     void deleteEdge(Edge<T> *edge);
+
+    std::string Location;
+    std::string Code;
+    bool parking = false;
+    int available = 0; // -1,0,1
 };
 
 /********************** Edge  ****************************/
@@ -74,10 +84,11 @@ protected:
 template <class T>
 class Edge {
 public:
-    Edge(Vertex<T> *orig, Vertex<T> *dest, double w);
+    Edge(Vertex<T> *orig, Vertex<T> *dest, int Driving, int Walking);
 
     Vertex<T> * getDest() const;
-    double getWeight() const;
+    int getDrivingTime() const;
+    int getWalkingTime() const;
     bool isSelected() const;
     Vertex<T> * getOrig() const;
     Edge<T> *getReverse() const;
@@ -88,8 +99,8 @@ public:
     void setFlow(double flow);
 protected:
     Vertex<T> * dest; // destination vertex
-    double weight; // edge weight, can also be used for capacity
-
+    int driving;
+    int walking; //
     // auxiliary fields
     bool selected = false;
 
@@ -110,6 +121,7 @@ public:
     * Auxiliary function to find a vertex with a given the content.
     */
     Vertex<T> *findVertex(const T &in) const;
+    Vertex<T> *findCode(const std::string &in) const;
     /*
      *  Adds a vertex with a given content or info (in) to a graph (this).
      *  Returns true if successful, and false if a vertex with that content already exists.
@@ -122,9 +134,9 @@ public:
      * destination vertices and the edge weight (w).
      * Returns true if successful, and false if the source or destination vertex does not exist.
      */
-    bool addEdge(const T &sourc, const T &dest, double w);
+    bool addEdge(const T &sourc, const T &dest, int Driving, int Walking);
     bool removeEdge(const T &source, const T &dest);
-    bool addBidirectionalEdge(const T &sourc, const T &dest, double w);
+    bool addBidirectionalEdge(const T &sourc, const T &dest, int Driving, int Walking);
 
     int getNumVertex() const;
     std::vector<Vertex<T> *> getVertexSet() const;
@@ -151,11 +163,11 @@ template <class T>
 Vertex<T>::Vertex(T in): info(in) {}
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
- * with a given destination vertex (d) and edge weight (w).
+ * with a given destination vertex (d) and edge driving time and walking time.
  */
 template <class T>
-Edge<T> * Vertex<T>::addEdge(Vertex<T> *d, double w) {
-    auto newEdge = new Edge<T>(this, d, w);
+Edge<T> * Vertex<T>::addEdge(Vertex<T> *d, int driving, int walking) {
+    auto newEdge = new Edge<T>(this, d, driving, walking);
     adj.push_back(newEdge);
     d->incoming.push_back(newEdge);
     return newEdge;
@@ -197,7 +209,27 @@ void Vertex<T>::removeOutgoingEdges() {
         deleteEdge(edge);
     }
 }
+//New Code
+template<class T>
+void Vertex<T>::setLocation(std::string Location) {
+    this->Location = Location;
+}
 
+template<class T>
+void Vertex<T>::setCode(std::string Code) {
+    this->Code = Code;
+}
+
+template<class T>
+std::string Vertex<T>::getCode() const{
+    return this->Code;
+}
+
+template<class T>
+void Vertex<T>::setParking(bool Parking) {
+    this->parking = Parking;
+}
+//
 template <class T>
 bool Vertex<T>::operator<(Vertex<T> & vertex) const {
     return this->dist < vertex.dist;
@@ -312,16 +344,21 @@ void Vertex<T>::deleteEdge(Edge<T> *edge) {
 /********************** Edge  ****************************/
 
 template <class T>
-Edge<T>::Edge(Vertex<T> *orig, Vertex<T> *dest, double w): orig(orig), dest(dest), weight(w) {}
+Edge<T>::Edge(Vertex<T> *orig, Vertex<T> *dest, int Driving, int Walking): orig(orig), dest(dest), driving(Driving), walking(Walking) {}
 
 template <class T>
 Vertex<T> * Edge<T>::getDest() const {
     return this->dest;
 }
 
-template <class T>
-double Edge<T>::getWeight() const {
-    return this->weight;
+template<class T>
+int Edge<T>::getDrivingTime() const {
+    return this->driving;
+}
+
+template<class T>
+int Edge<T>::getWalkingTime() const {
+    return this->walking;
 }
 
 template <class T>
@@ -382,6 +419,14 @@ Vertex<T> * Graph<T>::findVertex(const T &in) const {
     return nullptr;
 }
 
+template<class T>
+Vertex<T> * Graph<T>::findCode(const std::string &in) const {
+    for (auto v : vertexSet)
+        if (v->getCode() == in)
+            return v;
+    return nullptr;
+}
+
 /*
  * Finds the index of the vertex with a given content.
  */
@@ -432,12 +477,12 @@ bool Graph<T>::removeVertex(const T &in) {
  * Returns true if successful, and false if the source or destination vertex does not exist.
  */
 template <class T>
-bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
+bool Graph<T>::addEdge(const T &sourc, const T &dest, int Driving, int Walking) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
         return false;
-    v1->addEdge(v2, w);
+    v1->addEdge(v2, Driving, Walking);
     return true;
 }
 
@@ -456,17 +501,18 @@ bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
 }
 
 template <class T>
-bool Graph<T>::addBidirectionalEdge(const T &sourc, const T &dest, double w) {
+bool Graph<T>::addBidirectionalEdge(const T &sourc, const T &dest, int Driving, int Walking) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
     if (v1 == nullptr || v2 == nullptr)
         return false;
-    auto e1 = v1->addEdge(v2, w);
-    auto e2 = v2->addEdge(v1, w);
+    auto e1 = v1->addEdge(v2, Driving, Walking);
+    auto e2 = v2->addEdge(v1, Driving, Walking);
     e1->setReverse(e2);
     e2->setReverse(e1);
     return true;
 }
+
 
 inline void deleteMatrix(int **m, int n) {
     if (m != nullptr) {
