@@ -14,6 +14,9 @@ bool relax(Edge<T> *edge) { // d[u] + w(u,v) < d[v]
 
     if (edge->getDrivingTime() == -1) {return false;} //can't drive on that edge
 
+    Vertex<T> *v = edge->getDest();
+    if (v->getAvailable() == -1) {return false;}
+
     if (edge->getOrig()->getDist() + edge->getDrivingTime() < edge->getDest()->getDist()) { // we have found a better way to reach v
         edge->getDest()->setDist(edge->getOrig()->getDist() + edge->getDrivingTime()); // d[v] = d[u] + w(u,v)
         edge->getDest()->setPath(edge); // set the predecessor of v to u; in this case the edge from u to v

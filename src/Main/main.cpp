@@ -43,8 +43,13 @@ void CommandLine(Graph<int> &g) {
 void ModeDriving(Graph<int> &g, int source, int destination) {
     dijkstra(&g, source);
     std::vector<int> bestDrivingRoute = getPath(&g, source, destination);
-
+    int cost1 =getCost(&g, destination);
+    for (int i = 1; i < bestDrivingRoute.size()-1; i++) {
+        g.findVertex(bestDrivingRoute[i])->setAvailable(-1);
+    }
+    dijkstra(&g, source);
     std::vector<int> AlternativeDrivingRoute = getPath(&g, source, destination);
+    int cost2 = getCost(&g, destination);
     std::cout<<"Source: " <<source<<endl;
     std::cout<<"Destination: " <<destination<<endl;
     std::cout<<"BestDrivingRoute: ";
@@ -55,7 +60,19 @@ void ModeDriving(Graph<int> &g, int source, int destination) {
             if (i != bestDrivingRoute.size() - 1) {
                 std::cout << bestDrivingRoute[i] << ",";
             } else {
-                std::cout << bestDrivingRoute[i] << "(" << getCost(&g, destination) <<")";
+                std::cout << bestDrivingRoute[i] << "(" << cost1 <<")";
+            }
+        }
+    }
+    std::cout<<endl<<"AlternativeDrivingRoute: ";
+    if (AlternativeDrivingRoute.empty()) {
+        std::cout << "None";
+    } else {
+        for (size_t i = 0; i < AlternativeDrivingRoute.size(); ++i) {
+            if (i != AlternativeDrivingRoute.size() - 1) {
+                std::cout << AlternativeDrivingRoute[i] << ",";
+            } else {
+                std::cout << AlternativeDrivingRoute[i] << "(" << cost2 <<")";
             }
         }
     }

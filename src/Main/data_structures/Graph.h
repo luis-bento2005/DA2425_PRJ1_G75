@@ -53,6 +53,8 @@ public:
     void setCode(std::string Code);
     std::string getCode() const;
     void setParking(bool Parking);
+    void setAvailable(int Available);
+    int getAvailable() const;
 
     friend class MutablePriorityQueue<Vertex>;
 protected:
@@ -229,6 +231,17 @@ template<class T>
 void Vertex<T>::setParking(bool Parking) {
     this->parking = Parking;
 }
+
+template<class T>
+void Vertex<T>::setAvailable(int Available) {
+    this->available = Available;
+}
+
+template<class T>
+int Vertex<T>::getAvailable() const {
+    return this->available;
+}
+
 //
 template <class T>
 bool Vertex<T>::operator<(Vertex<T> & vertex) const {
