@@ -1,4 +1,4 @@
-# Install script for directory: /home/luis/Desktop/DA2425_PRJ1_G75
+# Install script for directory: /home/lucas/Desktop/da/DA2425_PRJ1_G75
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -57,6 +57,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "/home/luis/Desktop/DA2425_PRJ1_G75/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/lucas/Desktop/da/DA2425_PRJ1_G75/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

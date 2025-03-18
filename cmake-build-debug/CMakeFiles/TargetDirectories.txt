@@ -1,3 +1,3 @@
-/home/luis/Desktop/DA2425_PRJ1_G75/cmake-build-debug/CMakeFiles/DA2425_PRJ1_G75.dir
-/home/luis/Desktop/DA2425_PRJ1_G75/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/luis/Desktop/DA2425_PRJ1_G75/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/lucas/Desktop/da/DA2425_PRJ1_G75/cmake-build-debug/CMakeFiles/DA2425_PRJ1_G75.dir
+/home/lucas/Desktop/da/DA2425_PRJ1_G75/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/lucas/Desktop/da/DA2425_PRJ1_G75/cmake-build-debug/CMakeFiles/rebuild_cache.dir
