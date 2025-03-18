@@ -1,15 +1,21 @@
-#include "data_structures/Graph.h"
-#include "data_structures/MutablePriorityQueue.h"
-#include <list>
+//
+// Created by luis on 3/18/25.
+//
+
+#ifndef DRIVING_H
+#define DRIVING_H
+
+#include "../data_structures/Graph.h"
+
 using namespace std;
 
 template <class T>
 bool relax(Edge<T> *edge) { // d[u] + w(u,v) < d[v]
 
-    if (edge->time_driving == -1) {return false;} //can't drive on that edge
+    if (edge->getDrivingTime() == -1) {return false;} //can't drive on that edge
 
-    if (edge->getOrig()->getDist() + edge->time_driving() < edge->getDest()->getDist()) { // we have found a better way to reach v
-        edge->getDest()->setDist(edge->getOrig()->getDist() + edge->time_driving); // d[v] = d[u] + w(u,v)
+    if (edge->getOrig()->getDist() + edge->getDrivingTime() < edge->getDest()->getDist()) { // we have found a better way to reach v
+        edge->getDest()->setDist(edge->getOrig()->getDist() + edge->getDrivingTime()); // d[v] = d[u] + w(u,v)
         edge->getDest()->setPath(edge); // set the predecessor of v to u; in this case the edge from u to v
         return true;
     }
@@ -66,3 +72,4 @@ static std::vector<T> getPath(Graph<T> * g, const int &origin, const int &dest) 
 
 template <class T>
 double getCost(Graph<T> * g, const int &dest) {return g->findVertex(dest)->getDist();}
+#endif //DRIVING_H

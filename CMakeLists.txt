@@ -3,8 +3,9 @@ project(DA2425_PRJ1_G75)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(DA2425_PRJ1_G75 main.cpp
-        data_structures/createGraphs.cpp
-        data_structures/createGraphs.h
-
+add_executable(DA2425_PRJ1_G75 src/Main/main.cpp
+        src/Main/data_structures/createGraphs.cpp
+        src/Main/data_structures/createGraphs.h
+        src/Main/Modes/driving.h
+        src/Main/Modes/walking.h
 )

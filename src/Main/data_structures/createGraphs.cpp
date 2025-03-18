@@ -42,8 +42,8 @@ vector<int> createGraphs::findIsolatedNodesInGraph(Graph<int> g) {
 
 Graph<int> createGraphs::graphFromFile(string folder) {
     Graph<int> g;
-    string Location = folder + "/Locations.csv";
-    string Distance = folder + "/Distances.csv";
+    string Location = folder + "/Loc1.csv";
+    string Distance = folder + "/Dist1.csv";
 
     populateGraphs(&g, Location);
     populateEdges(&g, Distance);
@@ -97,14 +97,8 @@ void populateEdges(Graph<int> *g, string filename) {
             getline(iss, location2, ',') &&
             getline(iss, Driving, ',') &&
             getline(iss, Walking, ',')) {
-                int driving;
-                int walking;
-                if (Driving == "X") {
-                    driving = -1;
-                }
-                if (Walking == "X") {
-                    walking = -1;
-                }
+                int driving = (Driving == "X") ? -1 : stoi(Driving);
+                int walking = (Walking == "X") ? -1 : stoi(Walking);
 
                 g->addBidirectionalEdge(g->findCode(location1)->getInfo(), g->findCode(location2)->getInfo(),
                     driving, walking);

@@ -1,13 +1,14 @@
-#include "data_structures/Graph.h"
-#include "data_structures/MutablePriorityQueue.h"
-#include <list>
-using namespace std;
+#ifndef WALKING_H
+#define WALKING_H
 
+#include "../data_structures/Graph.h"
+
+using namespace std;
 
 template <class T>
 bool relax(Edge<T> *edge) { // d[u] + w(u,v) < d[v]
-    if (edge->getOrig()->getDist() + edge->time_driving() < edge->getDest()->getDist()) { // we have found a better way to reach v
-        edge->getDest()->setDist(edge->getOrig()->getDist() + edge->time_walking); // d[v] = d[u] + w(u,v)
+    if (edge->getOrig()->getDist() + edge->getDrivingTime()< edge->getDest()->getDist()) { // we have found a better way to reach v
+        edge->getDest()->setDist(edge->getOrig()->getDist() + edge->getDrivingTime()); // d[v] = d[u] + w(u,v)
         edge->getDest()->setPath(edge); // set the predecessor of v to u; in this case the edge from u to v
         return true;
     }
@@ -64,3 +65,4 @@ static std::vector<T> getPath(Graph<T> * g, const int &origin, const int &dest) 
 
 template <class T>
 double getCost(Graph<T> * g, const int &dest) {return g->findVertex(dest)->getDist();}
+#endif //WALKING_H

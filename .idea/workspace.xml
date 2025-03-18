@@ -31,9 +31,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="281c6d53-7143-4308-b540-456f3bef2261" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/driving.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/walking.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main/main.cpp" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Project" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../school/aed/aula4/singlyLinkedList.h" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../school/aed/aula5/aed026" afterDir="false" />
@@ -254,35 +252,21 @@
       <change afterPath="$PROJECT_DIR$/../school/ldts/numbers" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../school/so/prog.c" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../school/so/prog.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/cache-v2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/cmakeFiles-v1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/codemodel-v2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/query/toolchains-v1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cache-v2-f9c5de0d5ece886f7084.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-1721357247d912993487.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/directory-.-Debug-f5ebdc15457944623624.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-DA2425_PRJ1_G75-Debug-c68832d57321603673b2.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/toolchains-v1-ee793ea44d57a62b2395.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.30.5/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.30.5/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.30.5/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.30.5/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.30.5/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.30.5/CompilerIdC/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.30.5/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.30.5/CompilerIdCXX/a.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/rules.ninja" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/For_Students/Distances.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/For_Students/Distances.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/For_Students/Locations.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/For_Students/Locations.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA2425_PRJ1_G75.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/DA2425_PRJ1_G75.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/DA2425_PRJ1_G75" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/DA2425_PRJ1_G75" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_structures/Graph.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Modes/data_structures/Graph.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_structures/MutablePriorityQueue.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Modes/data_structures/MutablePriorityQueue.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_structures/createGraphs.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Modes/data_structures/createGraphs.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_structures/createGraphs.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Modes/data_structures/createGraphs.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driving.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Modes/driving.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/walking.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Modes/walking.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../build.gradle" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
@@ -315,6 +299,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="mock:///home/luis/Desktop/DA2425_PRJ1_G75/main.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///home/luis/Desktop/DA2425_PRJ1_G75/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Main/main.cpp" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -341,7 +326,7 @@
     "RunOnceActivity.west.config.association.type.startup.service": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "Merging graph",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "/home/luis/Desktop/DA/da2425_p01_student",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -357,6 +342,9 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Main/Modes" />
+      <recent name="$PROJECT_DIR$/src/Main" />
+      <recent name="$PROJECT_DIR$/Modes" />
       <recent name="$PROJECT_DIR$/data_structures" />
     </key>
   </component>
