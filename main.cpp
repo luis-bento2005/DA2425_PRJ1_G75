@@ -7,6 +7,7 @@ int main() {
     string folder = "../../DA2425_PRJ1_G75/For_Students";
     Graph<int> g = createGraphs::graphFromFile(folder);
 
+
     return 0;
 }
 
