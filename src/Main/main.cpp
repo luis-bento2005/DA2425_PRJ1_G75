@@ -96,6 +96,16 @@ void avoidSegmentLine(Graph<int> &g) {
 
 }
 
+void IncludeNode(Graph<int> &g) {
+    std::string IncludeNode;
+    std::getline(std::cin, IncludeNode);
+    std::istringstream iss(IncludeNode);
+    int Vertex;
+    while (iss >> Vertex) {
+        g.findVertex(Vertex)->setAvailable(1);
+    }
+}
+
 void ModeDriving(Graph<int> &g, int source, int destination) {
     dijkstra(&g, source);
     std::vector<int> bestDrivingRoute = getPath(&g, source, destination);
@@ -139,6 +149,7 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
     std::cin.ignore();
     std::cout<<"AvoidNodes: "; avoidNodesLine(g);
     std::cout<<"AvoidSegments: "; avoidSegmentLine(g);
+    std::cout<<"IncludeNode: "; avoidNodesLine(g);
 
     dijkstra(&g, source);
     std::vector<int> RestrictedDrivingRoute = getPath(&g, source, destination);

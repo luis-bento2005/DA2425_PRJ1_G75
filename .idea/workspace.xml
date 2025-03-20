@@ -251,10 +251,6 @@
       <change afterPath="$PROJECT_DIR$/../school/ldts/numbers" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../school/so/prog.c" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../school/so/prog.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/DA2425_PRJ1_G75" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/DA2425_PRJ1_G75" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../build.gradle" beforeDir="false" />
@@ -355,7 +351,7 @@
       <updated>1742288438689</updated>
       <workItem from="1742288439776" duration="5462000" />
       <workItem from="1742296377212" duration="5014000" />
-      <workItem from="1742493206807" duration="1273000" />
+      <workItem from="1742493206807" duration="1578000" />
     </task>
     <servers />
   </component>
