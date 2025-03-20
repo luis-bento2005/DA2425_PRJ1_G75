@@ -1,17 +1,22 @@
 #include <iostream>
+#include <sstream>
+
 #include "data_structures/createGraphs.h"
 #include "data_structures/Graph.h"
 #include "Modes/driving.h"
 
 void CommandLine(Graph<int> &g);
 void ModeDriving(Graph<int> &g, int source, int destination);
+void ModeDrivingRestrictions(Graph<int> &g, int source, int destination);
+void avoidNodesLine(Graph<int> &g);
+void avoidSegmentLine(Graph<int> &g);
 
 int main() {
     string folder = "../../DA2425_PRJ1_G75/src/Main/For_Students";
-    Graph<int> g = createGraphs::graphFromFile(folder);
 
     bool CML = true;
     while (CML) {
+        Graph<int> g = createGraphs::graphFromFile(folder);
         string input;
         std::cout<< "If you want to Use Command Line press 'Y'" <<endl;
         std::cin >> input;
@@ -26,18 +31,69 @@ int main() {
 }
 
 void CommandLine(Graph<int> &g) {
+    std::cout<<"If you want Restrictions press Y or N"<<endl;
+    std::string input;
+    std::cin >> input;
+    std::cout << "Chose one of the Modes(Driving, Driving-walking)" <<endl;
+
     std::string mode;
     int source;
     int destination;
-    std::cout<<"Mode: ";
-    std::cin>>mode;
-    std::cout<<"Source: ";
-    std::cin>>source;
-    std::cout<<"Destination: ";
-    std::cin>>destination;
-    if (mode == "Driving") {
-        ModeDriving(g, source, destination);
+    string restrictions;
+    std::cout<<"Mode: "; std::cin>>mode;
+    std::cout<<"Source: "; std::cin>>source;
+    std::cout<<"Destination: "; std::cin>>destination;
+
+    if (input == "Y" or input == "y") {
+        if (mode == "Driving") {
+            ModeDrivingRestrictions(g, source, destination);
+        }
     }
+    if (input == "N") {
+        if (mode == "Driving") {
+            ModeDriving(g, source, destination);
+        }
+    }
+}
+
+
+void avoidNodesLine(Graph<int> &g) {
+    std::string avoidNodes;
+    std::getline(std::cin, avoidNodes);
+    std::istringstream iss(avoidNodes);
+    int Vertex;
+    while (iss >> Vertex) {
+        g.findVertex(Vertex)->setAvailable(-1);
+    }
+
+}
+
+void avoidSegmentLine(Graph<int> &g) {
+    std::string avoidSegment;
+    std::getline(std::cin, avoidSegment);
+    std::istringstream iss(avoidSegment);
+    char discard;
+
+    while (iss >> discard && discard == '(') {
+        int source, destination;
+        char comma;
+
+        if (!(iss >> source >> comma >> destination)) {
+            break;
+        }
+
+        iss >> discard;
+        if (discard != ')') {
+            break;
+        }
+        g.findVertex(source)->removeEdge(destination);
+        g.findVertex(destination)->removeEdge(source);
+
+        if (iss.peek() == ',') {
+            iss.ignore();
+        }
+    }
+
 }
 
 void ModeDriving(Graph<int> &g, int source, int destination) {
@@ -73,6 +129,33 @@ void ModeDriving(Graph<int> &g, int source, int destination) {
                 std::cout << AlternativeDrivingRoute[i] << ",";
             } else {
                 std::cout << AlternativeDrivingRoute[i] << "(" << cost2 <<")";
+            }
+        }
+    }
+    std::cout<<endl;
+}
+
+void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
+    std::cin.ignore();
+    std::cout<<"AvoidNodes: "; avoidNodesLine(g);
+    std::cout<<"AvoidSegments: "; avoidSegmentLine(g);
+
+    dijkstra(&g, source);
+    std::vector<int> RestrictedDrivingRoute = getPath(&g, source, destination);
+    int cost1 =getCost(&g, destination);
+    dijkstra(&g, source);
+    std::vector<int> AlternativeDrivingRoute = getPath(&g, source, destination);
+    std::cout<<"Source: " <<source<<endl;
+    std::cout<<"Destination: " <<destination<<endl;
+    std::cout<<"RestrictedDrivingRoute: ";
+    if (RestrictedDrivingRoute.empty()) {
+        std::cout << "None";
+    } else {
+        for (size_t i = 0; i < RestrictedDrivingRoute.size(); ++i) {
+            if (i != RestrictedDrivingRoute.size() - 1) {
+                std::cout << RestrictedDrivingRoute[i] << ",";
+            } else {
+                std::cout << RestrictedDrivingRoute[i] << "(" << cost1 <<")";
             }
         }
     }
