@@ -17,6 +17,8 @@ bool relax(Edge<T> *edge) { // d[u] + w(u,v) < d[v]
     Vertex<T> *v = edge->getDest();
     if (v->getAvailable() == -1) {return false;}
 
+    if (edge->getOrig()->getAvailable() == -1) {return false;}
+
     if (edge->getOrig()->getDist() + edge->getDrivingTime() < edge->getDest()->getDist()) { // we have found a better way to reach v
         edge->getDest()->setDist(edge->getOrig()->getDist() + edge->getDrivingTime()); // d[v] = d[u] + w(u,v)
         edge->getDest()->setPath(edge); // set the predecessor of v to u; in this case the edge from u to v
@@ -28,6 +30,7 @@ bool relax(Edge<T> *edge) { // d[u] + w(u,v) < d[v]
 template <class T>
 void dijkstra(Graph<T> * g, const int &source) {
 
+    if (g->getVertexSet()[source]->getAvailable() == -1) return;
     // Initialize the vertices
     for(auto v : g->getVertexSet()) {
         v->setDist(INF);
@@ -59,6 +62,9 @@ static std::vector<T> getPath(Graph<T> * g, const int &origin, const int &dest) 
     std::vector<T> res;
     auto v = g->findVertex(dest);
     if (v == nullptr || v->getDist() == INF) { // missing or disconnected
+        return res;
+    }
+    if (g->findVertex(origin)->getDist() == INF) { // missing or disconnected
         return res;
     }
     res.push_back(v->getInfo());

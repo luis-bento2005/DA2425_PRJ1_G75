@@ -31,242 +31,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="281c6d53-7143-4308-b540-456f3bef2261" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Project" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula4/singlyLinkedList.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/aed026" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/aed026.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/aed027" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/aed027.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/aed028" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/aed028.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/n" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/stack_example" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/stack_example.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/t" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/time" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula5/types_example.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula6/aed032" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula6/aed032.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula6/aed033" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula6/aed033.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula6/aed034" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula6/aed034.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula6/aed035" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula6/aed035.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula6/binaryTree.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/aed040" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/aed040.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/aed041" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/aed041.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/aed042" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/aed042.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/aed043" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/aed043.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/map_example.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/set_example" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/aula7/set_example.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class10/aed058" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class10/aed058.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class10/aed059" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class10/aed059.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class10/aed062" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class10/aed062.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class10/graph.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed020" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed020.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed021" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed021.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed022" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed022.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed023" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed023.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed024" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed024.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/aed025.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class5/singlyLinkedList.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed026" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed026.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed027" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed027.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed028" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed028.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed028q" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed028q.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed029.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed030" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/aed030.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/ghram.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class6/stack.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed032" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed032.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed033" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed033.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed034" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed034.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed035" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed035.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed036" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed036.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed037" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed037.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed038" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/aed038.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class7/binaryTree.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class8/aed040" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class8/aed040.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class8/aed041" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class8/aed041.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class8/aed042" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class8/aed042.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class8/aed043" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class8/aed043.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class8/aed044" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class8/aed044.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed049" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed049.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed050" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed050.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed051" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed051.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed052" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed052.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed053" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed053.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed054" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed054.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed055" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/aed055.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste/class9/graph.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class10/aed058" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class10/aed058.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class10/aed059" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class10/aed059.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class10/aed062" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class10/aed062.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class10/graph.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed020" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed020.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed021" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed021.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed022" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed022.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed023" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed023.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed024.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed025" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/aed025.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class5/singlyLinkedList.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class6/aed026" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class6/aed026.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class6/aed027" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class6/aed027.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class6/aed028" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class6/aed028.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class6/aed029" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class6/aed029.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class6/aed030" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class6/aed030.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed032" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed032.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed033" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed033.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed034" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed034.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed035" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed035.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed036" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed036.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed037" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed037.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed038" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/aed038.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class7/binaryTree.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed040.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed041" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed041.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed042" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed042.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed043" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed043.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed044" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed044.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed045" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/aed045.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class8/binarySearchTree.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed049" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed049.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed050" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed050.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed051" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed051.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed052" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed052.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed053" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed053.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed054" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed054.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed055" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/aed055.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste2/class9/graph.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed020" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed020.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed021" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed021.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed022" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed022.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed023" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed023.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed024" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed024.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed025" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/aed025.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class5/singlyLinkedList.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class6/aed026" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class6/aed026.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class6/aed027" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class6/aed027.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class6/aed028" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class6/aed028.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed032" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed032.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed033" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed033.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed034" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed034.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed035" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed035.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed036" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed036.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed037" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed037.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed038" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/aed038.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/aed/teste3/class7/binaryTree.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/bd/UML.drawio" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/bd/aula/elections.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/bd/create1.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/bd/create2.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/ldts/area-calculator" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/ldts/numbers" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/so/prog.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../school/so/prog.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/Application.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/Char_NPC_elements/Character.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/Char_NPC_elements/Element.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/Char_NPC_elements/Ghost.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/Char_NPC_elements/KeyHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/Char_NPC_elements/Position.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/Game.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/Map_elements/Map.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -335,6 +102,11 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DA2425_PRJ1_G75" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="DA2425_PRJ1_G75" TARGET_NAME="DA2425_PRJ1_G75" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="DA2425_PRJ1_G75" RUN_TARGET_NAME="DA2425_PRJ1_G75">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -352,6 +124,7 @@
       <workItem from="1742288439776" duration="5462000" />
       <workItem from="1742296377212" duration="5014000" />
       <workItem from="1742493206807" duration="1578000" />
+      <workItem from="1742649636497" duration="4000" />
     </task>
     <servers />
   </component>

@@ -45,12 +45,12 @@ void CommandLine(Graph<int> &g) {
     std::cout<<"Destination: "; std::cin>>destination;
 
     if (input == "Y" or input == "y") {
-        if (mode == "Driving") {
+        if (mode == "Driving" or mode == "driving") {
             ModeDrivingRestrictions(g, source, destination);
         }
     }
-    if (input == "N") {
-        if (mode == "Driving") {
+    if (input == "N" or input == "n") {
+        if (mode == "Driving" or mode == "driving") {
             ModeDriving(g, source, destination);
         }
     }
@@ -154,8 +154,6 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
     dijkstra(&g, source);
     std::vector<int> RestrictedDrivingRoute = getPath(&g, source, destination);
     int cost1 =getCost(&g, destination);
-    dijkstra(&g, source);
-    std::vector<int> AlternativeDrivingRoute = getPath(&g, source, destination);
     std::cout<<"Source: " <<source<<endl;
     std::cout<<"Destination: " <<destination<<endl;
     std::cout<<"RestrictedDrivingRoute: ";
