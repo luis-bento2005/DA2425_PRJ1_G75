@@ -1,7 +1,3 @@
-//
-// Created by luis on 3/18/25.
-//
-
 #ifndef DRIVING_H
 #define DRIVING_H
 
@@ -42,13 +38,15 @@ void dijkstra(Graph<T> * g, const int &source) {
     while( ! q.empty() ) {
         auto v = q.extractMin();
         for(auto e : v->getAdj()) {
-            auto oldDist = e->getDest()->getDist();
-            if (relax(e)) {
-                if (oldDist == INF) {
-                    q.insert(e->getDest());
-                }
-                else {
-                    q.decreaseKey(e->getDest());
+            if (!e->getDest()->isVisited()) {
+                auto oldDist = e->getDest()->getDist();
+                if (relax(e)) {
+                    if (oldDist == INF) {
+                        q.insert(e->getDest());
+                    }
+                    else {
+                        q.decreaseKey(e->getDest());
+                    }
                 }
             }
         }
