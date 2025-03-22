@@ -56,7 +56,6 @@ public:
     void setAvailable(int Available);
     int getAvailable() const;
 
-
     friend class MutablePriorityQueue<Vertex>;
 protected:
     T info;                // info node
@@ -143,6 +142,8 @@ public:
 
     int getNumVertex() const;
     std::vector<Vertex<T> *> getVertexSet() const;
+
+    int includenodevar = -1;
 
 protected:
     std::vector<Vertex<T> *> vertexSet;    // vertex set

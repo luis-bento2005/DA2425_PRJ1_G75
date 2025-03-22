@@ -20,7 +20,6 @@ bool relax(Edge<T> *edge) { // d[u] + w(u,v) < d[v]
     if (edge->getOrig()->getAvailable() == -1) {return false;}
 
     if (edge->getOrig()->getDist() + edge->getDrivingTime() < edge->getDest()->getDist()) { // we have found a better way to reach v
-        if (v->getPath() != nullptr and edge->getDest()->getPath()->getOrig()->getAvailable() == 1) {return false;}
         edge->getDest()->setDist(edge->getOrig()->getDist() + edge->getDrivingTime()); // d[v] = d[u] + w(u,v)
         edge->getDest()->setPath(edge); // set the predecessor of v to u; in this case the edge from u to v
         return true;

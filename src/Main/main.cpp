@@ -103,6 +103,7 @@ void includeNode(Graph<int> &g) {
     int Vertex;
     while (iss >> Vertex) {
         g.findVertex(Vertex)->setAvailable(1);
+        g.includenodevar = Vertex;
     }
 }
 
@@ -151,9 +152,24 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
     std::cout<<"AvoidSegments: "; avoidSegmentLine(g);
     std::cout<<"IncludeNode: "; includeNode(g);
 
-    dijkstra(&g, source);
-    std::vector<int> RestrictedDrivingRoute = getPath(&g, source, destination);
-    int cost1 =getCost(&g, destination);
+
+    std::vector<int> RestrictedDrivingRoute;
+    int cost1;
+
+    if (g.includenodevar != -1) {
+        dijkstra(&g, g.includenodevar);
+        std::vector<int> aux = getPath(&g, g.includenodevar, destination);
+        cost1 =getCost(&g, destination);
+        dijkstra(&g, source);
+        RestrictedDrivingRoute = getPath(&g, source, g.includenodevar);
+        cost1 += getCost(&g, g.includenodevar);
+        RestrictedDrivingRoute.insert(RestrictedDrivingRoute.end(), aux.begin()+1, aux.end());
+    } else {
+        dijkstra(&g, source);
+        RestrictedDrivingRoute = getPath(&g, source, destination);
+        cost1 =getCost(&g, destination);
+    }
+
     std::cout<<"Source: " <<source<<endl;
     std::cout<<"Destination: " <<destination<<endl;
     std::cout<<"RestrictedDrivingRoute: ";
