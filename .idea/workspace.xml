@@ -8,6 +8,7 @@
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
     <option name="/Default/Environment/Hierarchy/GeneratedFilesCacheKey/Timestamp/@EntryValue" value="7" type="long" />
+    <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexRemoved" />
   </component>
   <component name="CMakePresetLoader">{
   &quot;useNewFormat&quot;: true
@@ -29,7 +30,16 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="281c6d53-7143-4308-b540-456f3bef2261" name="Changes" comment="" />
+    <list default="true" id="281c6d53-7143-4308-b540-456f3bef2261" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/DA2425_PRJ1_G75" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/DA2425_PRJ1_G75" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Modes/driving.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Modes/driving.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/data_structures/Graph.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/data_structures/Graph.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/main.cpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,9 +54,13 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///home/luis/Desktop/DA2425_PRJ1_G75/main.cpp" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/luis/Desktop/DA2425_PRJ1_G75/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/lucas/Desktop/da/DA2425_PRJ1_G75/src/Main/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/lucas/Desktop/da/DA2425_PRJ1_G75/src/Main/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/lucas/Desktop/da/DA2425_PRJ1_G75/src/Main/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/lucas/Desktop/da/DA2425_PRJ1_G75/src/Main/main.cpp" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Main/main.cpp" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///home/lucas/Desktop/da/DA2425_PRJ1_G75/src/Main/main.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/lucas/Desktop/da/DA2425_PRJ1_G75/src/Main/main.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -99,11 +113,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="DA2425_PRJ1_G75" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="DA2425_PRJ1_G75" TARGET_NAME="DA2425_PRJ1_G75" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="DA2425_PRJ1_G75" RUN_TARGET_NAME="DA2425_PRJ1_G75">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -122,6 +131,8 @@
       <workItem from="1742296377212" duration="5014000" />
       <workItem from="1742493206807" duration="1578000" />
       <workItem from="1742649636497" duration="4000" />
+      <workItem from="1742660050222" duration="13285000" />
+      <workItem from="1742747592996" duration="3364000" />
     </task>
     <servers />
   </component>

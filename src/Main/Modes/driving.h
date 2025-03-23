@@ -6,7 +6,7 @@
 using namespace std;
 
 template <class T>
-bool relax(Edge<T> *edge) { // d[u] + w(u,v) < d[v]
+bool relaxdriving(Edge<T> *edge) { //for the driving part of the path
 
     if (edge->getDrivingTime() == -1) {return false;} //can't drive on that edge
 
@@ -17,6 +17,24 @@ bool relax(Edge<T> *edge) { // d[u] + w(u,v) < d[v]
 
     if (edge->getOrig()->getDist() + edge->getDrivingTime() < edge->getDest()->getDist()) { // we have found a better way to reach v
         edge->getDest()->setDist(edge->getOrig()->getDist() + edge->getDrivingTime()); // d[v] = d[u] + w(u,v)
+        edge->getDest()->setPath(edge); // set the predecessor of v to u; in this case the edge from u to v
+        return true;
+    }
+    return false;
+}
+
+template <class T>
+bool relaxwalking(Edge<T> *edge) { //for the walking part of the path
+
+    if (edge->getDrivingTime() == -1) {return false;} //can't drive on that edge
+
+    Vertex<T> *v = edge->getDest();
+    if (v->getAvailable() == -1) {return false;}
+
+    if (edge->getOrig()->getAvailable() == -1) {return false;}
+
+    if (edge->getOrig()->getDist() + edge->getWalkingTime() < edge->getDest()->getDist()) { // we have found a better way to reach v
+        edge->getDest()->setDist(edge->getOrig()->getDist() + edge->getWalkingTime()); // d[v] = d[u] + w(u,v)
         edge->getDest()->setPath(edge); // set the predecessor of v to u; in this case the edge from u to v
         return true;
     }
@@ -40,12 +58,23 @@ void dijkstra(Graph<T> * g, const int &source) {
         for(auto e : v->getAdj()) {
             if (!e->getDest()->isVisited()) {
                 auto oldDist = e->getDest()->getDist();
-                if (relax(e)) {
-                    if (oldDist == INF) {
-                        q.insert(e->getDest());
+                if (g->switchwalking) {
+                    if (relaxwalking(e)) {
+                        if (oldDist == INF) {
+                            q.insert(e->getDest());
+                        }
+                        else {
+                            q.decreaseKey(e->getDest());
+                        }
                     }
-                    else {
-                        q.decreaseKey(e->getDest());
+                } else {
+                    if (relaxdriving(e)) {
+                        if (oldDist == INF) {
+                            q.insert(e->getDest());
+                        }
+                        else {
+                            q.decreaseKey(e->getDest());
+                        }
                     }
                 }
             }

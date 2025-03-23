@@ -147,6 +147,7 @@ public:
     std::vector<Vertex<T> *> getVertexSet() const;
 
     int includenodevar = -1;
+    bool switchwalking = false; //false means driving true means walking
 
 protected:
     std::vector<Vertex<T> *> vertexSet;    // vertex set

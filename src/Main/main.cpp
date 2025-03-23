@@ -19,14 +19,14 @@ bool enablepreconfig = false; //enable pre-configurations for the menu
 PRESS "q" ON THE CONSOLE TO ENABLE PREVIOUSLY DEFINED OPTIONS
 */
 
-std::string presetmode = "driving"; //chose wherever you want
-int presetsource = 2; //chose wherever you want -----> ex: "2"
+std::string presetmode = "driving-walking"; //chose wherever you want
+int presetsource = 1; //chose wherever you want -----> ex: "2"
 int presetdestination = 8; //chose wherever you want ----> ex "7"
 std::string presetrestrictions = "N"; //chose between "Y" or "N"
 std::string presetavoidNodes = ""; //chose wherever you want ----> ex "5,8"
 std::string presetavoidSegment = ""; //chose wherever you want ----> ex "(1,2),(3,7)"
 std::string presetIncludeNode = ""; //chose wherever you want ----> ex "4"
-int presetmaxWalkTime = 10;
+int presetmaxWalkTime = 30;
 
 /*
 PRESS "q" ON THE CONSOLE TO ENABLE PREVIOUSLY DEFINED OPTIONS
@@ -44,8 +44,7 @@ int main() {
         if (input == "e") {
             enablepreconfig = true;
             CommandLine(g);
-        }
-        if (input == "Y" or input == "y") {
+        } else if (input == "Y" or input == "y") {
             CommandLine(g);
         }else {
             CML = false;
@@ -271,16 +270,11 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
     }
 
     //ensuring source and destination are not adjacent
-    bool adjacent = false;
     for (auto edge : g.findVertex(source)->getAdj()) {
         if (edge->getDest()->getInfo() == destination) {
-            adjacent = true;
-            break;
+            std::cout <<  "Source and destination cannot be adjacent nodes." << std::endl;
+            return;
         }
-    }
-    if (adjacent) {
-        std::cout <<  "Source and destination cannot be adjacent nodes." << std::endl;
-        return;
     }
 
     //finding all parking nodes
@@ -306,7 +300,9 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
         int drivingTime = getCost(&g, parkingNode);
 
         //compute walking route from parking node to destination
+        g.switchwalking = true;
         dijkstra(&g, parkingNode);
+        g.switchwalking = false;
         std::vector<int> walkingRoute = getPath(&g, parkingNode, destination);
         int walkingTime = getCost(&g, destination);
 
