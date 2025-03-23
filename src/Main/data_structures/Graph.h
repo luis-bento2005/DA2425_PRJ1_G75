@@ -55,6 +55,9 @@ public:
     void setParking(bool Parking);
     void setAvailable(int Available);
     int getAvailable() const;
+    bool getParking() const {
+        return this->parking;
+    }
 
     friend class MutablePriorityQueue<Vertex>;
 protected:
