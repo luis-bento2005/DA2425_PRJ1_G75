@@ -1,5 +1,6 @@
 #include <iostream>
 #include <sstream>
+#include <stdint.h>
 
 #include "data_structures/createGraphs.h"
 #include "data_structures/Graph.h"
@@ -26,11 +27,23 @@ std::string presetrestrictions = "N"; //chose between "Y" or "N"
 std::string presetavoidNodes = ""; //chose wherever you want ----> ex "5,8"
 std::string presetavoidSegment = ""; //chose wherever you want ----> ex "(1,2),(3,7)"
 std::string presetIncludeNode = ""; //chose wherever you want ----> ex "4"
-int presetmaxWalkTime = 30;
+int presetmaxWalkTime = 1;
 
 /*
 PRESS "q" ON THE CONSOLE TO ENABLE PREVIOUSLY DEFINED OPTIONS
 */
+
+
+typedef struct {
+    std::vector<int> DrivingRoute;
+    int ParkingNode = -1;
+    std::vector<int> WalkingRoute;
+    int drivingtime = INT8_MAX;
+    int walkingtime = INT8_MAX;
+    int totaltime = INT8_MAX;
+} ApproximateSolution;
+ApproximateSolution approximatesolution1, approximatesolution2;
+
 
 int main() {
     string folder = "../../DA2425_PRJ1_G75/src/Main/For_Students";
@@ -317,9 +330,8 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
         int walkingTime = getCost(&g, destination);
 
         //checking if walking time is within the limit
+        int totalTime = drivingTime + walkingTime;
         if (walkingTime <= maxWalkTime) {
-            int totalTime = drivingTime + walkingTime;
-
             //update best route if this one is better
             if (totalTime < bestTotalTime || (totalTime == bestTotalTime && walkingTime > bestWalkingTime)) {
                 bestDrivingRoute = drivingRoute;
@@ -329,6 +341,27 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
                 bestDrivingTime = drivingTime;
                 bestWalkingTime = walkingTime;
             }
+        } else {
+            if (totalTime < approximatesolution1.totaltime) {
+                if (approximatesolution2.totaltime == INT8_MAX || approximatesolution1.totaltime > approximatesolution2.totaltime) {
+                    approximatesolution2.DrivingRoute = approximatesolution1.DrivingRoute;
+                    approximatesolution2.ParkingNode = approximatesolution1.ParkingNode;
+                    approximatesolution2.WalkingRoute = approximatesolution1.WalkingRoute;
+                    approximatesolution2.walkingtime = approximatesolution1.walkingtime;
+                    approximatesolution2.drivingtime = approximatesolution1.drivingtime;
+                }
+                approximatesolution1.DrivingRoute = drivingRoute;
+                approximatesolution1.ParkingNode = parkingNode;
+                approximatesolution1.WalkingRoute = walkingRoute;
+                approximatesolution1.walkingtime = walkingTime;
+                approximatesolution1.drivingtime = drivingTime;
+            } else if (totalTime < approximatesolution2.totaltime) {
+                approximatesolution2.DrivingRoute = drivingRoute;
+                approximatesolution2.ParkingNode = parkingNode;
+                approximatesolution2.WalkingRoute = walkingRoute;
+                approximatesolution2.walkingtime = walkingTime;
+                approximatesolution2.drivingtime = drivingTime;
+            }
         }
     }
 
@@ -336,35 +369,70 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
     std::cout << "Source: " << source << std::endl;
     std::cout << "Destination: " << destination << std::endl;
     if (bestParkingNode == -1) {
-        std::cout << "DrivingRoute: " << std::endl;
-        std::cout << "ParkingNode: " << std::endl;
-        std::cout << "WalkingRoute: " << std::endl;
-        std::cout << "Total Time: "  << std::endl;
         std::cout << "Message: No possible route with max. walking time of " << maxWalkTime << " minutes." << std::endl;
+        if (approximatesolution1.walkingtime != -1) {
+                std::cout << "DrivingRoute1: ";
+                for (size_t i = 0; i < approximatesolution1.DrivingRoute.size(); ++i) {
+                    if (i != approximatesolution1.DrivingRoute.size() - 1) {
+                        std::cout << approximatesolution1.DrivingRoute[i] << ",";
+                    } else {
+                        std::cout << approximatesolution1.DrivingRoute[i] << "(" << approximatesolution1.drivingtime << ")" << std::endl;
+                    }
+                }
+                std::cout << "ParkingNode1: " << approximatesolution1.ParkingNode << std::endl;
+                std::cout << "WalkingRoute1: ";
+                for (size_t i = 0; i < approximatesolution1.WalkingRoute.size(); ++i) {
+                    if (i != approximatesolution1.WalkingRoute.size() - 1) {
+                        std::cout << approximatesolution1.WalkingRoute[i] << ",";
+                    } else {
+                        std::cout << approximatesolution1.WalkingRoute[i] << "(" << approximatesolution1.walkingtime << ")" << std::endl;
+                    }
+                }
+                std::cout << "TotalTime1: " << (approximatesolution1.walkingtime + approximatesolution1.drivingtime) << std::endl;
+
+                if (approximatesolution2.walkingtime != -1) {
+                    std::cout << "DrivingRoute2: ";
+                    for (size_t i = 0; i < approximatesolution2.DrivingRoute.size(); ++i) {
+                        if (i != approximatesolution2.DrivingRoute.size() - 1) {
+                            std::cout << approximatesolution2.DrivingRoute[i] << ",";
+                        } else {
+                            std::cout << approximatesolution2.DrivingRoute[i] << "(" << approximatesolution2.drivingtime << ")" << std::endl;
+                        }
+                    }
+                    std::cout << "ParkingNode2: " << approximatesolution2.ParkingNode << std::endl;
+                    std::cout << "WalkingRoute2: ";
+                    for (size_t i = 0; i < approximatesolution2.WalkingRoute.size(); ++i) {
+                        if (i != approximatesolution2.WalkingRoute.size() - 1) {
+                            std::cout << approximatesolution2.WalkingRoute[i] << ",";
+                        } else {
+                            std::cout << approximatesolution2.WalkingRoute[i] << "(" << approximatesolution2.walkingtime << ")" << std::endl;
+                        }
+                    }
+                    std::cout << "TotalTime2: " << (approximatesolution2.walkingtime + approximatesolution2.drivingtime) << std::endl;
+                }
+            } else {
+                std::cout << "DrivingRoute:none" << std::endl;
+                std::cout << "ParkingNode:none" << std::endl;
+                std::cout << "WalkingRoute:none" << std::endl;
+            }
     } else {
-        if (bestDrivingRoute.empty() || bestWalkingRoute.empty()) {
-            std::cout << "DrivingRoute:none" << std::endl;
-            std::cout << "ParkingNode:none" << std::endl;
-            std::cout << "WalkingRoute:none" << std::endl;
-        } else {
-            std::cout << "DrivingRoute: ";
-            for (size_t i = 0; i < bestDrivingRoute.size(); ++i) {
-                if ( i != bestDrivingRoute.size() - 1) {
-                    std::cout << bestDrivingRoute[i] << ",";
-                } else {
-                    std::cout << bestDrivingRoute[i] << "(" << bestDrivingTime << ")" << std::endl;
-                }
+        std::cout << "DrivingRoute: ";
+        for (size_t i = 0; i < bestDrivingRoute.size(); ++i) {
+            if ( i != bestDrivingRoute.size() - 1) {
+            std::cout << bestDrivingRoute[i] << ",";
+            } else {
+            std::cout << bestDrivingRoute[i] << "(" << bestDrivingTime << ")" << std::endl;
             }
-            std::cout << "ParkingNode: " << bestParkingNode << std::endl;
-            std::cout << "WalkingRoute: ";
-            for (size_t i = 0; i < bestWalkingRoute.size(); ++i) {
-                if (i != bestWalkingRoute.size() - 1) {
-                    std::cout << bestWalkingRoute[i] << ",";
-                } else {
-                    std::cout << bestWalkingRoute[i] << "(" << bestWalkingTime << ")" << std::endl;
-                }
-            }
-            std::cout << "TotalTime: " << bestTotalTime << std::endl;
         }
+        std::cout << "ParkingNode: " << bestParkingNode << std::endl;
+        std::cout << "WalkingRoute: ";
+        for (size_t i = 0; i < bestWalkingRoute.size(); ++i) {
+            if (i != bestWalkingRoute.size() - 1) {
+            std::cout << bestWalkingRoute[i] << ",";
+            } else {
+                std::cout << bestWalkingRoute[i] << "(" << bestWalkingTime << ")" << std::endl;
+            }
+        }
+        std::cout << "TotalTime: " << bestTotalTime << std::endl;
     }
 }
