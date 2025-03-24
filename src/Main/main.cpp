@@ -9,11 +9,13 @@
 void CommandLine(Graph<int> &g);
 void BatchModeLine(Graph<int> &g);
 void BatchModeLineDriving(Graph<int> &g,std::ifstream &file);
+void BatchModeLineDriving_Walking(Graph<int> &g,std::ifstream &file);
 void ModeDriving(Graph<int> &g, int source, int destination);
 void ModeDrivingOutput(Graph<int> &g, int source, int destination);
 void ModeDrivingRestrictions(Graph<int> &g, int source, int destination);
 void ModeDrivingRestrictionsOutput(Graph<int> &g, int source, int destination);
 void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime);
+void ModeDrivingandWalkingOutput(Graph<int> &g, int source, int destination, int maxWalkTime);
 void avoidNodesLine(Graph<int> &g);
 void avoidSegmentLine(Graph<int> &g);
 
@@ -155,6 +157,9 @@ void BatchModeLine(Graph<int> &g) {
     if (Mode == "Mode:Driving" || Mode == "Mode:driving") {
         BatchModeLineDriving(g,file);
     }
+    else if (Mode == "Mode:driving-walking" || Mode == "Mode:Driving-walking") {
+        BatchModeLineDriving_Walking(g,file);
+    }
 
     file.close();
 }
@@ -242,7 +247,80 @@ void BatchModeLineDriving(Graph<int> &g,std::ifstream &file) {
         ModeDrivingRestrictionsOutput(g, source, destination);
     }
 }
+void BatchModeLineDriving_Walking(Graph<int> &g,std::ifstream &file) {
+    string line;
+    int count = 0;
+    int source, destination, max_walk_time;
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string paramenter;
+        string value;
+        switch (count) {
+            case 0: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                source = stoi(value);
+                break;
+            }
+            case 1: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                destination = stoi(value);
+                break;
+            }
+            case 2: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                max_walk_time = stoi(value);
+                break;
+            }
+            case 3: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                std::istringstream iss1(value);
+                char discard;
 
+                while (iss1 >> discard && discard == '(') {
+                    int source1, destination1;
+                    char comma;
+
+                    if (!(iss1 >> source1 >> comma >> destination1)) {
+                        break;
+                    }
+
+                    iss1 >> discard;
+                    if (discard != ')') {
+                        break;
+                    }
+                    g.findVertex(source1)->removeEdge(destination1);
+                    g.findVertex(destination1)->removeEdge(source1);
+
+                    if (iss1.peek() == ',') {
+                        iss1.ignore();
+                    }
+                }
+                break;
+            }
+            case 4: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                std::istringstream iss2(value);
+                int Vertex_Node;
+                while (iss2 >> Vertex_Node) {
+                    g.findVertex(Vertex_Node)->setAvailable(1);
+                    g.includenodevar = Vertex_Node;
+                }
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        count++;
+    }
+
+    ModeDrivingandWalkingOutput(g,source,destination,max_walk_time);
+}
 
 void avoidNodesLine(Graph<int> &g) {
     std::string avoidNodes;
@@ -562,4 +640,107 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
             std::cout << "TotalTime: " << bestTotalTime << std::endl;
         }
     }
+}
+
+void ModeDrivingandWalkingOutput(Graph<int> &g, int source, int destination, int maxWalkTime) {
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt");
+    if (!outputFile) {  // Check if the file opened successfully
+        std::cerr << "Error: Could not open the file!" << std::endl;
+        return;
+    }
+    //ensuring source and destination are not parking nodes
+    if (g.findVertex(source)->getParking() || g.findVertex(destination)->getParking()) {
+        outputFile << "Source or destination cannot be parking nodes." << std::endl;
+        return;
+    }
+
+    //ensuring source and destination are not adjacent
+    for (auto edge : g.findVertex(source)->getAdj()) {
+        if (edge->getDest()->getInfo() == destination) {
+            outputFile <<  "Source and destination cannot be adjacent nodes." << std::endl;
+            return;
+        }
+    }
+
+    //finding all parking nodes
+    std::vector<int> parkingNodes;
+    for (auto vertex : g.getVertexSet()) {
+        if (vertex->getParking()) {
+            parkingNodes.push_back(vertex->getInfo());
+        }
+    }
+
+    // to store the best route
+    std::vector<int> bestDrivingRoute, bestWalkingRoute;
+    int bestParkingNode = -1;
+    int bestTotalTime = INF;
+    int bestWalkingTime = 0;
+    int bestDrivingTime = 0;
+
+    //iterating over all the parking nodes
+    for (int parkingNode : parkingNodes) {
+        //compute driving route from source to parking node
+        dijkstra(&g, source);
+        std::vector<int> drivingRoute = getPath(&g, source, parkingNode);
+        int drivingTime = getCost(&g, parkingNode);
+
+        //compute walking route from parking node to destination
+        g.switchwalking = true;
+        dijkstra(&g, parkingNode);
+        g.switchwalking = false;
+        std::vector<int> walkingRoute = getPath(&g, parkingNode, destination);
+        int walkingTime = getCost(&g, destination);
+
+        //checking if walking time is within the limit
+        if (walkingTime <= maxWalkTime) {
+            int totalTime = drivingTime + walkingTime;
+
+            //update best route if this one is better
+            if (totalTime < bestTotalTime || (totalTime == bestTotalTime && walkingTime > bestWalkingTime)) {
+                bestDrivingRoute = drivingRoute;
+                bestWalkingRoute = walkingRoute;
+                bestParkingNode = parkingNode;
+                bestTotalTime = totalTime;
+                bestDrivingTime = drivingTime;
+                bestWalkingTime = walkingTime;
+            }
+        }
+    }
+
+    //output the best route
+    outputFile << "Source: " << source << std::endl;
+    outputFile << "Destination: " << destination << std::endl;
+    if (bestParkingNode == -1) {
+        outputFile << "DrivingRoute: " << std::endl;
+        outputFile << "ParkingNode: " << std::endl;
+        outputFile << "WalkingRoute: " << std::endl;
+        outputFile << "Total Time: "  << std::endl;
+        outputFile << "Message: No possible route with max. walking time of " << maxWalkTime << " minutes." << std::endl;
+    } else {
+        if (bestDrivingRoute.empty() || bestWalkingRoute.empty()) {
+            outputFile << "DrivingRoute:none" << std::endl;
+            outputFile << "ParkingNode:none" << std::endl;
+            outputFile << "WalkingRoute:none" << std::endl;
+        } else {
+            outputFile << "DrivingRoute: ";
+            for (size_t i = 0; i < bestDrivingRoute.size(); ++i) {
+                if ( i != bestDrivingRoute.size() - 1) {
+                    outputFile << bestDrivingRoute[i] << ",";
+                } else {
+                    outputFile << bestDrivingRoute[i] << "(" << bestDrivingTime << ")" << std::endl;
+                }
+            }
+            outputFile << "ParkingNode: " << bestParkingNode << std::endl;
+            outputFile << "WalkingRoute: ";
+            for (size_t i = 0; i < bestWalkingRoute.size(); ++i) {
+                if (i != bestWalkingRoute.size() - 1) {
+                    outputFile << bestWalkingRoute[i] << ",";
+                } else {
+                    outputFile << bestWalkingRoute[i] << "(" << bestWalkingTime << ")" << std::endl;
+                }
+            }
+            outputFile << "TotalTime: " << bestTotalTime << std::endl;
+        }
+    }
+    outputFile.close();
 }

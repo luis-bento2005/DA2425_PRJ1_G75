@@ -35,11 +35,8 @@
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/DA2425_PRJ1_G75" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/DA2425_PRJ1_G75" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/For_Students/Dist1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/CreateGraph/Dist1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/For_Students/Distances.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/CreateGraph/Distances.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/For_Students/Loc1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/CreateGraph/Loc1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/For_Students/Locations.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/CreateGraph/Locations.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/data_structures/createGraphs.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/data_structures/createGraphs.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/BatchMode/Output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/BatchMode/Output.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/BatchMode/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/BatchMode/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -140,7 +137,7 @@
       <workItem from="1742649636497" duration="4000" />
       <workItem from="1742660050222" duration="13285000" />
       <workItem from="1742747592996" duration="6172000" />
-      <workItem from="1742840887781" duration="5527000" />
+      <workItem from="1742840887781" duration="6606000" />
     </task>
     <servers />
   </component>
