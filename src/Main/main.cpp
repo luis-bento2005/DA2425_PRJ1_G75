@@ -1,3 +1,12 @@
+/**
+ * @file main.cpp
+ * @brief Main implementation file for the route planning system
+ *
+ * @details This file implements the command-line interface and core functionality
+ * for the route planning system, including driving, restricted driving, and
+ * combined driving-walking modes.
+ */
+
 #include <iostream>
 #include <sstream>
 #include <stdint.h>
@@ -14,26 +23,36 @@ void avoidNodesLine(Graph<int> &g);
 void avoidSegmentLine(Graph<int> &g);
 
 
-bool enablepreconfig = false; //enable pre-configurations for the menu
+/**
+ * @brief Global flag to enable pre-configured test scenarios
+ */
+bool enablepreconfig = false;
 
 /*
 PRESS "q" ON THE CONSOLE TO ENABLE PREVIOUSLY DEFINED OPTIONS
 */
 
-std::string presetmode = "driving-walking"; //chose wherever you want
-int presetsource = 1; //chose wherever you want -----> ex: "2"
-int presetdestination = 8; //chose wherever you want ----> ex "7"
-std::string presetrestrictions = "N"; //chose between "Y" or "N"
-std::string presetavoidNodes = ""; //chose wherever you want ----> ex "5,8"
-std::string presetavoidSegment = ""; //chose wherever you want ----> ex "(1,2),(3,7)"
-std::string presetIncludeNode = ""; //chose wherever you want ----> ex "4"
-int presetmaxWalkTime = 1;
+/**
+ * @brief Pre-configured test parameters
+ * @{
+ */
+std::string presetmode = "driving-walking"; ///< Default operation mode
+int presetsource = 1; ///< Default source node ID
+int presetdestination = 8; ///< Default destination node ID
+std::string presetrestrictions = "N"; ///< Default restrictions
+std::string presetavoidNodes = ""; ///< Nodes to avoid in pre-configured mode
+std::string presetavoidSegment = ""; ///< Segments to avoid in pre-configured mode
+std::string presetIncludeNode = ""; ///< Node to include in pre-configured mode
+int presetmaxWalkTime = 1; ///< Max walking time in pre-configured mode
+/** @} */
 
 /*
 PRESS "q" ON THE CONSOLE TO ENABLE PREVIOUSLY DEFINED OPTIONS
 */
 
-
+/**
+ * @brief Structure to store approximate solutions when no perfect route is found
+ */
 typedef struct {
     std::vector<int> DrivingRoute;
     int ParkingNode = -1;
@@ -45,6 +64,14 @@ typedef struct {
 ApproximateSolution approximatesolution1, approximatesolution2;
 
 
+/**
+ * @brief Main program entry point
+ * @return Exit status (0 for success)
+ *
+ * @details Initializes the graph and handles the main command loop.
+ * The program loads graph data from files and presents a command-line interface
+ * for route planning operations.
+ */
 int main() {
     string folder = "../../DA2425_PRJ1_G75/src/Main/For_Students";
 
@@ -67,6 +94,16 @@ int main() {
     return 0;
 }
 
+/**
+ * @brief Handles the command-line interface for route planning
+ * @param g Reference to the graph object
+ *
+ * @details Provides interactive menu for:
+ * - Mode selection (driving/driving-walking)
+ * - Source/destination input
+ * - Route restrictions
+ * - Pre-configured test scenarios
+ */
 void CommandLine(Graph<int> &g) {
     if (enablepreconfig == true) {
         if (presetrestrictions == "Y") {
@@ -147,7 +184,10 @@ void CommandLine(Graph<int> &g) {
     }
 }
 
-
+/**
+ * @brief Processes nodes to avoid from user input
+ * @param g Reference to the graph object
+ */
 void avoidNodesLine(Graph<int> &g) {
     std::string avoidNodes;
     std::getline(std::cin, avoidNodes);
@@ -159,6 +199,10 @@ void avoidNodesLine(Graph<int> &g) {
 
 }
 
+/**
+ * @brief Processes segments to avoid from user input
+ * @param g Reference to the graph object
+ */
 void avoidSegmentLine(Graph<int> &g) {
     std::string avoidSegment;
     std::getline(std::cin, avoidSegment);
@@ -187,6 +231,11 @@ void avoidSegmentLine(Graph<int> &g) {
 
 }
 
+/**
+ * @brief Processes nodes to include in route from user input
+ * @param g Reference to the graph object
+ */
+
 void includeNode(Graph<int> &g) {
     std::string IncludeNode;
     std::getline(std::cin, IncludeNode);
@@ -198,6 +247,15 @@ void includeNode(Graph<int> &g) {
     }
 }
 
+/**
+ * @brief Finds the fastest driving route between two nodes
+ * @param g Reference to the graph object
+ * @param source Starting node ID
+ * @param destination Target node ID
+ *
+ * @details Calculates both the optimal route and an alternative independent route.
+ * Outputs the routes with their respective travel times.
+ */
 void ModeDriving(Graph<int> &g, int source, int destination) {
     dijkstra(&g, source);
     std::vector<int> bestDrivingRoute = getPath(&g, source, destination);
@@ -237,6 +295,17 @@ void ModeDriving(Graph<int> &g, int source, int destination) {
     std::cout<<endl;
 }
 
+/**
+ * @brief Finds driving route with restrictions
+ * @param g Reference to the graph object
+ * @param source Starting node ID
+ * @param destination Target node ID
+ *
+ * @details Handles:
+ * - Avoided nodes
+ * - Avoided segments
+ * - Required nodes to include
+ */
 void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
     if (!enablepreconfig) {
         std::cin.ignore();
@@ -278,6 +347,22 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
     }
     std::cout<<endl;
 }
+
+/**
+ * @brief Finds optimal combined driving-walking route
+ * @param g Reference to the graph object
+ * @param source Starting node ID
+ * @param destination Target node ID
+ * @param maxWalkTime Maximum allowed walking time in minutes
+ *
+ * @details Finds route that:
+ * 1. Starts with driving
+ * 2. Includes parking at a node
+ * 3. Finishes with walking
+ * 4. Respects max walking time
+ *
+ * If no perfect route is found, provides up to two approximate solutions.
+ */
 
 void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime) {
     if (!enablepreconfig) {

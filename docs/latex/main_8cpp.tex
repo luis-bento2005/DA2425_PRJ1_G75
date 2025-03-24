@@ -1,0 +1,330 @@
+\doxysection{src/\+Main/main.cpp File Reference}
+\hypertarget{main_8cpp}{}\label{main_8cpp}\index{src/Main/main.cpp@{src/Main/main.cpp}}
+
+
+Main implementation file for the route planning system.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+{\ttfamily \#include "{}data\+\_\+structures/create\+Graphs.\+h"{}}\newline
+{\ttfamily \#include "{}data\+\_\+structures/\+Graph.\+h"{}}\newline
+{\ttfamily \#include "{}Modes/driving.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_approximate_solution}{Approximate\+Solution}}
+\begin{DoxyCompactList}\small\item\em Structure to store approximate solutions when no perfect route is found. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8cpp_a04cd0fece4aa3cab99efdc5d589d4256}{Command\+Line}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&g)
+\begin{DoxyCompactList}\small\item\em Handles the command-\/line interface for route planning. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a1a55bc8da2a1433f6380d5d1d9bc59a9}{Mode\+Driving}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&g, int source, int destination)
+\begin{DoxyCompactList}\small\item\em Finds the fastest driving route between two nodes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a9e3cbd632d647276f0f0a36b5b55004e}{Mode\+Driving\+Restrictions}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&g, int source, int destination)
+\begin{DoxyCompactList}\small\item\em Finds driving route with restrictions. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_aa7d0f334af680d15a95c0155393b850e}{Mode\+Drivingand\+Walking}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&g, int source, int destination, int max\+Walk\+Time)
+\begin{DoxyCompactList}\small\item\em Finds optimal combined driving-\/walking route. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a476336b215e8500631a3d57d16fe74a5}{avoid\+Nodes\+Line}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&g)
+\begin{DoxyCompactList}\small\item\em Processes nodes to avoid from user input. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a31cd124d9f2999f1367a54ab9b698703}{avoid\+Segment\+Line}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&g)
+\begin{DoxyCompactList}\small\item\em Processes segments to avoid from user input. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Main program entry point. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_ae76563149f56958c57c4f0d57ed93ba9}{include\+Node}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&g)
+\begin{DoxyCompactList}\small\item\em Processes nodes to include in route from user input. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{main_8cpp_a93491e9eedb75120daa8192f5d8a71ee}{enablepreconfig}} = false
+\begin{DoxyCompactList}\small\item\em Global flag to enable pre-\/configured test scenarios. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_approximate_solution}{Approximate\+Solution}} \mbox{\hyperlink{main_8cpp_a234a6137ceed64313dea04a3edc897f3}{approximatesolution1}}
+\item 
+\mbox{\hyperlink{struct_approximate_solution}{Approximate\+Solution}} \mbox{\hyperlink{main_8cpp_afceef00082410e760287cf965a764479}{approximatesolution2}}
+\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a475a0f62a41d67e0e8bb1273b7df7b3c}{presetmode}} = "{}driving-\/walking"{}
+\begin{DoxyCompactList}\small\item\em Pre-\/configured test parameters. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8cpp_a549c78a146917c33fb75a1ffb8dac4cb}{presetsource}} = 1
+\begin{DoxyCompactList}\small\item\em Default source node ID. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8cpp_af313ff0fbb979cb26b9ba486c2adba22}{presetdestination}} = 8
+\begin{DoxyCompactList}\small\item\em Default destination node ID. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a45204b5076ec9839d83b4466f47b981d}{presetrestrictions}} = "{}N"{}
+\begin{DoxyCompactList}\small\item\em Default restrictions. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a6e46cdaa58d8aeb5bc9f1764c969cc71}{presetavoid\+Nodes}} = "{}"{}
+\begin{DoxyCompactList}\small\item\em Nodes to avoid in pre-\/configured mode. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a476aa7b85ea12036e5f2ef51daa57942}{presetavoid\+Segment}} = "{}"{}
+\begin{DoxyCompactList}\small\item\em Segments to avoid in pre-\/configured mode. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{main_8cpp_a162b6fdd54af793533b334252956d4c8}{preset\+Include\+Node}} = "{}"{}
+\begin{DoxyCompactList}\small\item\em Node to include in pre-\/configured mode. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8cpp_a2c3fb3c50c387bb75ca16142d0324503}{presetmax\+Walk\+Time}} = 1
+\begin{DoxyCompactList}\small\item\em Max walking time in pre-\/configured mode. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+
+\doxysubsection{Detailed Description}
+Main implementation file for the route planning system. 
+
+This file implements the command-\/line interface and core functionality for the route planning system, including driving, restricted driving, and combined driving-\/walking modes. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8cpp_a476336b215e8500631a3d57d16fe74a5}\index{main.cpp@{main.cpp}!avoidNodesLine@{avoidNodesLine}}
+\index{avoidNodesLine@{avoidNodesLine}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{avoidNodesLine()}{avoidNodesLine()}}
+{\footnotesize\ttfamily \label{main_8cpp_a476336b215e8500631a3d57d16fe74a5} 
+void avoid\+Nodes\+Line (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&}]{g}{}\end{DoxyParamCaption})}
+
+
+
+Processes nodes to avoid from user input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the graph object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8cpp_a31cd124d9f2999f1367a54ab9b698703}\index{main.cpp@{main.cpp}!avoidSegmentLine@{avoidSegmentLine}}
+\index{avoidSegmentLine@{avoidSegmentLine}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{avoidSegmentLine()}{avoidSegmentLine()}}
+{\footnotesize\ttfamily \label{main_8cpp_a31cd124d9f2999f1367a54ab9b698703} 
+void avoid\+Segment\+Line (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&}]{g}{}\end{DoxyParamCaption})}
+
+
+
+Processes segments to avoid from user input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the graph object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8cpp_a04cd0fece4aa3cab99efdc5d589d4256}\index{main.cpp@{main.cpp}!CommandLine@{CommandLine}}
+\index{CommandLine@{CommandLine}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{CommandLine()}{CommandLine()}}
+{\footnotesize\ttfamily \label{main_8cpp_a04cd0fece4aa3cab99efdc5d589d4256} 
+void Command\+Line (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&}]{g}{}\end{DoxyParamCaption})}
+
+
+
+Handles the command-\/line interface for route planning. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the graph object\\
+\hline
+\end{DoxyParams}
+Provides interactive menu for\+:
+\begin{DoxyItemize}
+\item Mode selection (driving/driving-\/walking)
+\item Source/destination input
+\item Route restrictions
+\item Pre-\/configured test scenarios 
+\end{DoxyItemize}\Hypertarget{main_8cpp_ae76563149f56958c57c4f0d57ed93ba9}\index{main.cpp@{main.cpp}!includeNode@{includeNode}}
+\index{includeNode@{includeNode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{includeNode()}{includeNode()}}
+{\footnotesize\ttfamily \label{main_8cpp_ae76563149f56958c57c4f0d57ed93ba9} 
+void include\+Node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&}]{g}{}\end{DoxyParamCaption})}
+
+
+
+Processes nodes to include in route from user input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the graph object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Main program entry point. 
+
+\begin{DoxyReturn}{Returns}
+Exit status (0 for success)
+\end{DoxyReturn}
+Initializes the graph and handles the main command loop. The program loads graph data from files and presents a command-\/line interface for route planning operations. \Hypertarget{main_8cpp_a1a55bc8da2a1433f6380d5d1d9bc59a9}\index{main.cpp@{main.cpp}!ModeDriving@{ModeDriving}}
+\index{ModeDriving@{ModeDriving}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{ModeDriving()}{ModeDriving()}}
+{\footnotesize\ttfamily \label{main_8cpp_a1a55bc8da2a1433f6380d5d1d9bc59a9} 
+void Mode\+Driving (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&}]{g}{, }\item[{int}]{source}{, }\item[{int}]{destination}{}\end{DoxyParamCaption})}
+
+
+
+Finds the fastest driving route between two nodes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the graph object \\
+\hline
+{\em source} & Starting node ID \\
+\hline
+{\em destination} & Target node ID\\
+\hline
+\end{DoxyParams}
+Calculates both the optimal route and an alternative independent route. Outputs the routes with their respective travel times. \Hypertarget{main_8cpp_aa7d0f334af680d15a95c0155393b850e}\index{main.cpp@{main.cpp}!ModeDrivingandWalking@{ModeDrivingandWalking}}
+\index{ModeDrivingandWalking@{ModeDrivingandWalking}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{ModeDrivingandWalking()}{ModeDrivingandWalking()}}
+{\footnotesize\ttfamily \label{main_8cpp_aa7d0f334af680d15a95c0155393b850e} 
+void Mode\+Drivingand\+Walking (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&}]{g}{, }\item[{int}]{source}{, }\item[{int}]{destination}{, }\item[{int}]{max\+Walk\+Time}{}\end{DoxyParamCaption})}
+
+
+
+Finds optimal combined driving-\/walking route. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the graph object \\
+\hline
+{\em source} & Starting node ID \\
+\hline
+{\em destination} & Target node ID \\
+\hline
+{\em max\+Walk\+Time} & Maximum allowed walking time in minutes\\
+\hline
+\end{DoxyParams}
+Finds route that\+:
+\begin{DoxyEnumerate}
+\item Starts with driving
+\item Includes parking at a node
+\item Finishes with walking
+\item Respects max walking time
+\end{DoxyEnumerate}
+
+If no perfect route is found, provides up to two approximate solutions. \Hypertarget{main_8cpp_a9e3cbd632d647276f0f0a36b5b55004e}\index{main.cpp@{main.cpp}!ModeDrivingRestrictions@{ModeDrivingRestrictions}}
+\index{ModeDrivingRestrictions@{ModeDrivingRestrictions}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{ModeDrivingRestrictions()}{ModeDrivingRestrictions()}}
+{\footnotesize\ttfamily \label{main_8cpp_a9e3cbd632d647276f0f0a36b5b55004e} 
+void Mode\+Driving\+Restrictions (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \&}]{g}{, }\item[{int}]{source}{, }\item[{int}]{destination}{}\end{DoxyParamCaption})}
+
+
+
+Finds driving route with restrictions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the graph object \\
+\hline
+{\em source} & Starting node ID \\
+\hline
+{\em destination} & Target node ID\\
+\hline
+\end{DoxyParams}
+Handles\+:
+\begin{DoxyItemize}
+\item Avoided nodes
+\item Avoided segments
+\item Required nodes to include 
+\end{DoxyItemize}
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{main_8cpp_a234a6137ceed64313dea04a3edc897f3}\index{main.cpp@{main.cpp}!approximatesolution1@{approximatesolution1}}
+\index{approximatesolution1@{approximatesolution1}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{approximatesolution1}{approximatesolution1}}
+{\footnotesize\ttfamily \label{main_8cpp_a234a6137ceed64313dea04a3edc897f3} 
+\mbox{\hyperlink{struct_approximate_solution}{Approximate\+Solution}} approximatesolution1}
+
+\Hypertarget{main_8cpp_afceef00082410e760287cf965a764479}\index{main.cpp@{main.cpp}!approximatesolution2@{approximatesolution2}}
+\index{approximatesolution2@{approximatesolution2}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{approximatesolution2}{approximatesolution2}}
+{\footnotesize\ttfamily \label{main_8cpp_afceef00082410e760287cf965a764479} 
+\mbox{\hyperlink{struct_approximate_solution}{Approximate\+Solution}} approximatesolution2}
+
+\Hypertarget{main_8cpp_a93491e9eedb75120daa8192f5d8a71ee}\index{main.cpp@{main.cpp}!enablepreconfig@{enablepreconfig}}
+\index{enablepreconfig@{enablepreconfig}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{enablepreconfig}{enablepreconfig}}
+{\footnotesize\ttfamily \label{main_8cpp_a93491e9eedb75120daa8192f5d8a71ee} 
+bool enablepreconfig = false}
+
+
+
+Global flag to enable pre-\/configured test scenarios. 
+
+\Hypertarget{main_8cpp_a6e46cdaa58d8aeb5bc9f1764c969cc71}\index{main.cpp@{main.cpp}!presetavoidNodes@{presetavoidNodes}}
+\index{presetavoidNodes@{presetavoidNodes}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{presetavoidNodes}{presetavoidNodes}}
+{\footnotesize\ttfamily \label{main_8cpp_a6e46cdaa58d8aeb5bc9f1764c969cc71} 
+std\+::string presetavoid\+Nodes = "{}"{}}
+
+
+
+Nodes to avoid in pre-\/configured mode. 
+
+\Hypertarget{main_8cpp_a476aa7b85ea12036e5f2ef51daa57942}\index{main.cpp@{main.cpp}!presetavoidSegment@{presetavoidSegment}}
+\index{presetavoidSegment@{presetavoidSegment}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{presetavoidSegment}{presetavoidSegment}}
+{\footnotesize\ttfamily \label{main_8cpp_a476aa7b85ea12036e5f2ef51daa57942} 
+std\+::string presetavoid\+Segment = "{}"{}}
+
+
+
+Segments to avoid in pre-\/configured mode. 
+
+\Hypertarget{main_8cpp_af313ff0fbb979cb26b9ba486c2adba22}\index{main.cpp@{main.cpp}!presetdestination@{presetdestination}}
+\index{presetdestination@{presetdestination}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{presetdestination}{presetdestination}}
+{\footnotesize\ttfamily \label{main_8cpp_af313ff0fbb979cb26b9ba486c2adba22} 
+int presetdestination = 8}
+
+
+
+Default destination node ID. 
+
+\Hypertarget{main_8cpp_a162b6fdd54af793533b334252956d4c8}\index{main.cpp@{main.cpp}!presetIncludeNode@{presetIncludeNode}}
+\index{presetIncludeNode@{presetIncludeNode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{presetIncludeNode}{presetIncludeNode}}
+{\footnotesize\ttfamily \label{main_8cpp_a162b6fdd54af793533b334252956d4c8} 
+std\+::string preset\+Include\+Node = "{}"{}}
+
+
+
+Node to include in pre-\/configured mode. 
+
+\Hypertarget{main_8cpp_a2c3fb3c50c387bb75ca16142d0324503}\index{main.cpp@{main.cpp}!presetmaxWalkTime@{presetmaxWalkTime}}
+\index{presetmaxWalkTime@{presetmaxWalkTime}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{presetmaxWalkTime}{presetmaxWalkTime}}
+{\footnotesize\ttfamily \label{main_8cpp_a2c3fb3c50c387bb75ca16142d0324503} 
+int presetmax\+Walk\+Time = 1}
+
+
+
+Max walking time in pre-\/configured mode. 
+
+\Hypertarget{main_8cpp_a475a0f62a41d67e0e8bb1273b7df7b3c}\index{main.cpp@{main.cpp}!presetmode@{presetmode}}
+\index{presetmode@{presetmode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{presetmode}{presetmode}}
+{\footnotesize\ttfamily \label{main_8cpp_a475a0f62a41d67e0e8bb1273b7df7b3c} 
+std\+::string presetmode = "{}driving-\/walking"{}}
+
+
+
+Pre-\/configured test parameters. 
+
+Default operation mode \Hypertarget{main_8cpp_a45204b5076ec9839d83b4466f47b981d}\index{main.cpp@{main.cpp}!presetrestrictions@{presetrestrictions}}
+\index{presetrestrictions@{presetrestrictions}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{presetrestrictions}{presetrestrictions}}
+{\footnotesize\ttfamily \label{main_8cpp_a45204b5076ec9839d83b4466f47b981d} 
+std\+::string presetrestrictions = "{}N"{}}
+
+
+
+Default restrictions. 
+
+\Hypertarget{main_8cpp_a549c78a146917c33fb75a1ffb8dac4cb}\index{main.cpp@{main.cpp}!presetsource@{presetsource}}
+\index{presetsource@{presetsource}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{presetsource}{presetsource}}
+{\footnotesize\ttfamily \label{main_8cpp_a549c78a146917c33fb75a1ffb8dac4cb} 
+int presetsource = 1}
+
+
+
+Default source node ID. 
+

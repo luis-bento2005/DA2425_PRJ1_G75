@@ -1,3 +1,8 @@
+/**
+* @file createGraphs.cpp
+ * @brief Implementation of graph creation and manipulation functions
+ */
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -10,6 +15,14 @@ using namespace std;
 void populateGraphs(Graph<int> *g, string filename);
 void populateEdges(Graph<int> *g, string filename);
 
+/**
+ * @brief Finds isolated nodes in a graph
+ *
+ * A node is considered isolated if it has no outgoing edges and no incoming edges.
+ *
+ * @param g The graph to search for isolated nodes
+ * @return vector<int> A vector containing the IDs of all isolated nodes
+ */
 vector<int> createGraphs::findIsolatedNodesInGraph(Graph<int> g) {
     int i, id;
     vector<int> res;
@@ -40,6 +53,16 @@ vector<int> createGraphs::findIsolatedNodesInGraph(Graph<int> g) {
     return res;
 }
 
+/**
+ * @brief Creates a graph from data files in the specified folder
+ *
+ * Expects two files in the folder:
+ * - Loc1.csv containing vertex information
+ * - Dist1.csv containing edge information
+ *
+ * @param folder The path to the folder containing the data files
+ * @return Graph<int> The constructed graph
+ */
 Graph<int> createGraphs::graphFromFile(string folder) {
     Graph<int> g;
     string Location = folder + "/Loc1.csv";
@@ -50,6 +73,14 @@ Graph<int> createGraphs::graphFromFile(string folder) {
     return g;
 }
 
+/**
+ * @brief Populates a graph with vertices from a CSV file
+ *
+ * File format should be: location,id,code,parking
+ *
+ * @param g Pointer to the graph to populate
+ * @param filename Path to the CSV file containing vertex data
+ */
 void populateGraphs(Graph<int> *g, string filename) {
     ifstream file;
     file.open(filename);
@@ -80,6 +111,14 @@ void populateGraphs(Graph<int> *g, string filename) {
     file.close();
 }
 
+/**
+ * @brief Populates a graph with edges from a CSV file
+ *
+ * File format should be: location1,location2,Driving,Walking
+ *
+ * @param g Pointer to the graph to populate
+ * @param filename Path to the CSV file containing edge data
+ */
 void populateEdges(Graph<int> *g, string filename) {
     ifstream file;
     file.open(filename);
@@ -111,6 +150,15 @@ void populateEdges(Graph<int> *g, string filename) {
 //
 // ------------------------------------------------------------
 
+/**
+ * @brief Generates a file representing the graph structure
+ *
+ * Creates a file that represents the graph connections.
+ * Isolated nodes are handled specially to maintain visibility.
+ *
+ * @param gname The name to use for the output file
+ * @param g The graph to process
+ */
 void createGraphs::emitDOTFile(string gname, Graph<int> g) {
     ofstream g_dot_file;
     int idx;

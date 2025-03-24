@@ -1,0 +1,127 @@
+\doxysection{create\+Graphs Class Reference}
+\hypertarget{classcreate_graphs}{}\label{classcreate_graphs}\index{createGraphs@{createGraphs}}
+
+
+Provides static methods for graph creation and analysis.  
+
+
+
+
+{\ttfamily \#include $<$create\+Graphs.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \mbox{\hyperlink{classcreate_graphs_a9fe792ede3977247e7f1a1e380cf764c}{graph\+From\+File}} (string file\+Name)
+\begin{DoxyCompactList}\small\item\em Creates a graph from data files in the specified folder. \end{DoxyCompactList}\item 
+static vector$<$ int $>$ \mbox{\hyperlink{classcreate_graphs_ad16ef48d114acdcdff1ff16fd5a2fc4a}{find\+Isolated\+Nodes\+In\+Graph}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ g)
+\begin{DoxyCompactList}\small\item\em Finds isolated nodes in a graph (nodes with no connections) \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{classcreate_graphs_a98da80f3c6c81d170d6980d24f3be64d}{emit\+DOTFile}} (string fname, \mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ g)
+\begin{DoxyCompactList}\small\item\em Generates a file representing the graph structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides static methods for graph creation and analysis. 
+
+This class contains utility functions for\+:
+\begin{DoxyItemize}
+\item Creating graphs from files
+\item Analyzing graph properties
+\item Outputting graph representations 
+\end{DoxyItemize}
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classcreate_graphs_a98da80f3c6c81d170d6980d24f3be64d}\index{createGraphs@{createGraphs}!emitDOTFile@{emitDOTFile}}
+\index{emitDOTFile@{emitDOTFile}!createGraphs@{createGraphs}}
+\doxysubsubsection{\texorpdfstring{emitDOTFile()}{emitDOTFile()}}
+{\footnotesize\ttfamily \label{classcreate_graphs_a98da80f3c6c81d170d6980d24f3be64d} 
+void create\+Graphs\+::emit\+DOTFile (\begin{DoxyParamCaption}\item[{string}]{gname}{, }\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$}]{g}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Generates a file representing the graph structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fname} & The name to use for the output file \\
+\hline
+{\em g} & The graph to process\\
+\hline
+\end{DoxyParams}
+Creates a file that represents the graph connections. Isolated nodes are handled specially to maintain visibility.
+
+
+\begin{DoxyParams}{Parameters}
+{\em gname} & The name to use for the output file \\
+\hline
+{\em g} & The graph to process \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcreate_graphs_ad16ef48d114acdcdff1ff16fd5a2fc4a}\index{createGraphs@{createGraphs}!findIsolatedNodesInGraph@{findIsolatedNodesInGraph}}
+\index{findIsolatedNodesInGraph@{findIsolatedNodesInGraph}!createGraphs@{createGraphs}}
+\doxysubsubsection{\texorpdfstring{findIsolatedNodesInGraph()}{findIsolatedNodesInGraph()}}
+{\footnotesize\ttfamily \label{classcreate_graphs_ad16ef48d114acdcdff1ff16fd5a2fc4a} 
+vector$<$ int $>$ create\+Graphs\+::find\+Isolated\+Nodes\+In\+Graph (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$}]{g}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Finds isolated nodes in a graph (nodes with no connections) 
+
+Finds isolated nodes in a graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & The graph to analyze \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector$<$int$>$ List of IDs of isolated nodes
+\end{DoxyReturn}
+A node is considered isolated if it has no outgoing edges and no incoming edges.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & The graph to search for isolated nodes \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector$<$int$>$ A vector containing the IDs of all isolated nodes 
+\end{DoxyReturn}
+\Hypertarget{classcreate_graphs_a9fe792ede3977247e7f1a1e380cf764c}\index{createGraphs@{createGraphs}!graphFromFile@{graphFromFile}}
+\index{graphFromFile@{graphFromFile}!createGraphs@{createGraphs}}
+\doxysubsubsection{\texorpdfstring{graphFromFile()}{graphFromFile()}}
+{\footnotesize\ttfamily \label{classcreate_graphs_a9fe792ede3977247e7f1a1e380cf764c} 
+\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ create\+Graphs\+::graph\+From\+File (\begin{DoxyParamCaption}\item[{string}]{folder}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Creates a graph from data files in the specified folder. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\+Name} & Path to the folder containing the data files \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_graph}{Graph$<$int$>$} The constructed graph
+\end{DoxyReturn}
+Expects two files in the folder\+:
+\begin{DoxyItemize}
+\item Loc1.\+csv containing vertex information
+\item Dist1.\+csv containing edge information
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em folder} & The path to the folder containing the data files \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{class_graph}{Graph$<$int$>$} The constructed graph 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+Main/data\+\_\+structures/\mbox{\hyperlink{create_graphs_8h}{create\+Graphs.\+h}}\item 
+src/\+Main/data\+\_\+structures/\mbox{\hyperlink{create_graphs_8cpp}{create\+Graphs.\+cpp}}\end{DoxyCompactItemize}
