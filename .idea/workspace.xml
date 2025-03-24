@@ -31,13 +31,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="281c6d53-7143-4308-b540-456f3bef2261" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/DA2425_PRJ1_G75" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/DA2425_PRJ1_G75" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Modes/driving.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Modes/driving.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/data_structures/Graph.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/data_structures/Graph.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +129,7 @@
       <workItem from="1742493206807" duration="1578000" />
       <workItem from="1742649636497" duration="4000" />
       <workItem from="1742660050222" duration="13285000" />
-      <workItem from="1742747592996" duration="3364000" />
+      <workItem from="1742747592996" duration="6172000" />
     </task>
     <servers />
   </component>

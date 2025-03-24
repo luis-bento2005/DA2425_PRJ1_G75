@@ -100,31 +100,36 @@ void CommandLine(Graph<int> &g) {
         } else {
             ModeDriving(g, presetsource, presetdestination);
         }
+        enablepreconfig = false;
     } else {
-        std::cout << "If you want Restrictions press Y or N" << std::endl;
-        std::string input;
-        std::cin >> input;
+        bool restrictions = false;
         std::cout << "Choose one of the Modes (Driving, Driving-walking)" << std::endl;
-
         std::string mode;
+        std::cin >> mode;
+
+        if (mode == "Driving" || mode == "driving") {
+            std::cout << "If you want Restrictions press Y or N" << std::endl;
+            std::string input;
+            std::cin >> input;
+            if (input == "Y" || input == "y") {restrictions = true;}
+        }
+
         int source;
         int destination;
-        std::cout << "Mode: "; std::cin >> mode;
         std::cout << "Source: "; std::cin >> source;
         std::cout << "Destination: "; std::cin >> destination;
 
-        if (input == "Y" || input == "y") {
-            if (mode == "Driving" || mode == "driving") {
+
+        if (mode == "Driving" || mode == "driving") {
+            if (restrictions) {
                 ModeDrivingRestrictions(g, source, destination);
-            }
-        } else if (input == "N" || input == "n") {
-            if (mode == "Driving" || mode == "driving") {
+            } else {
                 ModeDriving(g, source, destination);
-            } else if (mode == "Driving-walking" || mode == "driving-walking") {
-                int maxWalkTime;
-                std::cout << "MaxWalkTime: "; std::cin >> maxWalkTime;
-                ModeDrivingandWalking(g, source, destination, maxWalkTime);
             }
+        } else if (mode == "Driving-walking" || mode == "driving-walking") {
+            int maxWalkTime;
+            std::cout << "MaxWalkTime: "; std::cin >> maxWalkTime;
+            ModeDrivingandWalking(g, source, destination, maxWalkTime);
         }
     }
 }
@@ -262,6 +267,11 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
 }
 
 void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime) {
+    if (!enablepreconfig) {
+        std::cin.ignore();
+        std::cout<<"AvoidNodes: "; avoidNodesLine(g);
+        std::cout<<"AvoidSegments: "; avoidSegmentLine(g);
+    }
 
     //ensuring source and destination are not parking nodes
     if (g.findVertex(source)->getParking() || g.findVertex(destination)->getParking()) {
@@ -323,34 +333,38 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
     }
 
     //output the best route
+    std::cout << "Source: " << source << std::endl;
+    std::cout << "Destination: " << destination << std::endl;
     if (bestParkingNode == -1) {
-        std::cout << "Source: " << source << std::endl;
-        std::cout << "Destination: " << destination << std::endl;
         std::cout << "DrivingRoute: " << std::endl;
         std::cout << "ParkingNode: " << std::endl;
         std::cout << "WalkingRoute: " << std::endl;
         std::cout << "Total Time: "  << std::endl;
         std::cout << "Message: No possible route with max. walking time of " << maxWalkTime << " minutes." << std::endl;
     } else {
-        std::cout << "Source: " << source << std::endl;
-        std::cout << "Destination: " << destination << std::endl;
-        std::cout << "DrivingRoute: ";
-        for (size_t i = 0; i < bestDrivingRoute.size(); ++i) {
-            if ( i != bestDrivingRoute.size() - 1) {
-                std::cout << bestDrivingRoute[i] << ",";
-            } else {
-                std::cout << bestDrivingRoute[i] << "(" << bestDrivingTime << ")" << std::endl;
+        if (bestDrivingRoute.empty() || bestWalkingRoute.empty()) {
+            std::cout << "DrivingRoute:none" << std::endl;
+            std::cout << "ParkingNode:none" << std::endl;
+            std::cout << "WalkingRoute:none" << std::endl;
+        } else {
+            std::cout << "DrivingRoute: ";
+            for (size_t i = 0; i < bestDrivingRoute.size(); ++i) {
+                if ( i != bestDrivingRoute.size() - 1) {
+                    std::cout << bestDrivingRoute[i] << ",";
+                } else {
+                    std::cout << bestDrivingRoute[i] << "(" << bestDrivingTime << ")" << std::endl;
+                }
             }
-        }
-        std::cout << "ParkingNode: " << bestParkingNode << std::endl;
-        std::cout << "WalkingRoute: ";
-        for (size_t i = 0; i < bestWalkingRoute.size(); ++i) {
-            if (i != bestWalkingRoute.size() - 1) {
-                std::cout << bestWalkingRoute[i] << ",";
-            } else {
-                std::cout << bestWalkingRoute[i] << "(" << bestWalkingTime << ")" << std::endl;
+            std::cout << "ParkingNode: " << bestParkingNode << std::endl;
+            std::cout << "WalkingRoute: ";
+            for (size_t i = 0; i < bestWalkingRoute.size(); ++i) {
+                if (i != bestWalkingRoute.size() - 1) {
+                    std::cout << bestWalkingRoute[i] << ",";
+                } else {
+                    std::cout << bestWalkingRoute[i] << "(" << bestWalkingTime << ")" << std::endl;
+                }
             }
+            std::cout << "TotalTime: " << bestTotalTime << std::endl;
         }
-        std::cout << "TotalTime: " << bestTotalTime << std::endl;
     }
 }
