@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <sstream>
 
@@ -6,8 +7,12 @@
 #include "Modes/driving.h"
 
 void CommandLine(Graph<int> &g);
+void BatchModeLine(Graph<int> &g);
+void BatchModeLineDriving(Graph<int> &g,std::ifstream &file);
 void ModeDriving(Graph<int> &g, int source, int destination);
+void ModeDrivingOutput(Graph<int> &g, int source, int destination);
 void ModeDrivingRestrictions(Graph<int> &g, int source, int destination);
+void ModeDrivingRestrictionsOutput(Graph<int> &g, int source, int destination);
 void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime);
 void avoidNodesLine(Graph<int> &g);
 void avoidSegmentLine(Graph<int> &g);
@@ -33,20 +38,24 @@ PRESS "q" ON THE CONSOLE TO ENABLE PREVIOUSLY DEFINED OPTIONS
 */
 
 int main() {
-    string folder = "../../DA2425_PRJ1_G75/src/Main/For_Students";
+    string folder = "../../DA2425_PRJ1_G75/src/Main/CreateGraph";
 
     bool CML = true;
     while (CML) {
         Graph<int> g = createGraphs::graphFromFile(folder);
         string input;
-        std::cout<< "If you want to Use Command Line press 'Y'" <<endl;
+        std::cout<< "If you want to Use Command Line press 'Y', if you want to Use Batch Mode Press 'T'" <<endl;
         std::cin >> input;
         if (input == "e") {
             enablepreconfig = true;
             CommandLine(g);
         } else if (input == "Y" or input == "y") {
             CommandLine(g);
-        }else {
+        } else if (input == "T" or input == "t") {
+            BatchModeLine(g);
+        }
+
+        else {
             CML = false;
         }
     }
@@ -131,6 +140,106 @@ void CommandLine(Graph<int> &g) {
             std::cout << "MaxWalkTime: "; std::cin >> maxWalkTime;
             ModeDrivingandWalking(g, source, destination, maxWalkTime);
         }
+    }
+}
+void BatchModeLine(Graph<int> &g) {
+    string filename = "../../DA2425_PRJ1_G75/src/Main/BatchMode/input.txt";
+    ifstream file;
+    file.open(filename);
+    if (!file.is_open()) {
+        cerr << "Error: Could not open file " << filename << endl;
+        return;
+    }
+    string Mode;
+    getline(file, Mode);
+    if (Mode == "Mode:Driving" || Mode == "Mode:driving") {
+        BatchModeLineDriving(g,file);
+    }
+
+    file.close();
+}
+
+void BatchModeLineDriving(Graph<int> &g,std::ifstream &file) {
+    int count = 0;
+    string line;
+    int source, destination;
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string paramenter;
+        string value;
+        switch (count) {
+            case 0: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                source = stoi(value);
+                break;
+            }
+            case 1: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                destination = stoi(value);
+                break;
+            }
+            case 2: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                std::istringstream iss2(value);
+                int Vertex;
+                while (iss2 >> Vertex) {
+                    g.findVertex(Vertex)->setAvailable(-1);
+                }
+                break;
+            }
+            case 3: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                std::istringstream iss3(value);
+                char discard;
+
+                while (iss3 >> discard && discard == '(') {
+                    int source1, destination1;
+                    char comma;
+
+                    if (!(iss3 >> source1 >> comma >> destination1)) {
+                        break;
+                    }
+
+                    iss3 >> discard;
+                    if (discard != ')') {
+                        break;
+                    }
+                    g.findVertex(source1)->removeEdge(destination1);
+                    g.findVertex(destination1)->removeEdge(source1);
+
+                    if (iss3.peek() == ',') {
+                        iss3.ignore();
+                    }
+                }
+                break;
+            }
+            case 4: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                std::istringstream iss4(value);
+                int Vertex_Node;
+                while (iss4 >> Vertex_Node) {
+                    g.findVertex(Vertex_Node)->setAvailable(1);
+                    g.includenodevar = Vertex_Node;
+                }
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        count++;
+    }
+
+    if (count == 2) {
+        ModeDrivingOutput(g, source, destination);
+    }
+    else {
+        ModeDrivingRestrictionsOutput(g, source, destination);
     }
 }
 
@@ -224,6 +333,52 @@ void ModeDriving(Graph<int> &g, int source, int destination) {
     std::cout<<endl;
 }
 
+void ModeDrivingOutput(Graph<int> &g, int source, int destination) {
+    dijkstra(&g, source);
+    std::vector<int> bestDrivingRoute = getPath(&g, source, destination);
+    int cost1 = getCost(&g, destination);
+    for (int i = 1; i < bestDrivingRoute.size()-1; i++) {
+        g.findVertex(bestDrivingRoute[i])->setAvailable(-1);
+    }
+    dijkstra(&g, source);
+    std::vector<int> AlternativeDrivingRoute = getPath(&g, source, destination);
+    int cost2 = getCost(&g, destination);
+
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt");
+    if (!outputFile) {  // Check if the file opened successfully
+        std::cerr << "Error: Could not open the file!" << std::endl;
+        return;
+    }
+
+    outputFile<<"Source: "<<source<<endl;
+    outputFile<<"Destination: "<<destination<<endl;
+    outputFile<<"BestDrivingRoute: ";
+    if (bestDrivingRoute.empty()) {
+        outputFile << "None";
+    } else {
+        for (size_t i = 0; i < bestDrivingRoute.size(); ++i) {
+            if (i != bestDrivingRoute.size() - 1) {
+                outputFile<< bestDrivingRoute[i] << ",";
+            } else {
+                outputFile << bestDrivingRoute[i] << "(" << cost1 <<")";
+            }
+        }
+    }
+    outputFile<<endl<<"AlternativeDrivingRoute: ";
+    if (AlternativeDrivingRoute.empty()) {
+        outputFile << "None";
+    } else {
+        for (size_t i = 0; i < AlternativeDrivingRoute.size(); ++i) {
+            if (i != AlternativeDrivingRoute.size() - 1) {
+                outputFile << AlternativeDrivingRoute[i] << ",";
+            } else {
+                outputFile << AlternativeDrivingRoute[i] << "(" << cost2 <<")";
+            }
+        }
+    }
+    outputFile.close();
+}
+
 void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
     if (!enablepreconfig) {
         std::cin.ignore();
@@ -264,6 +419,46 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
         }
     }
     std::cout<<endl;
+}
+
+void ModeDrivingRestrictionsOutput(Graph<int> &g, int source, int destination) {
+
+    std::vector<int> RestrictedDrivingRoute;
+    int cost1;
+
+    if (g.includenodevar != -1) {
+        dijkstra(&g, g.includenodevar);
+        std::vector<int> aux = getPath(&g, g.includenodevar, destination);
+        cost1 =getCost(&g, destination);
+        dijkstra(&g, source);
+        RestrictedDrivingRoute = getPath(&g, source, g.includenodevar);
+        cost1 += getCost(&g, g.includenodevar);
+        RestrictedDrivingRoute.insert(RestrictedDrivingRoute.end(), aux.begin()+1, aux.end());
+    } else {
+        dijkstra(&g, source);
+        RestrictedDrivingRoute = getPath(&g, source, destination);
+        cost1 =getCost(&g, destination);
+    }
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt");
+    if (!outputFile) {  // Check if the file opened successfully
+        std::cerr << "Error: Could not open the file!" << std::endl;
+        return;
+    }
+    outputFile<<"Source: " <<source<<endl;
+    outputFile<<"Destination: " <<destination<<endl;
+    outputFile<<"RestrictedDrivingRoute: ";
+    if (RestrictedDrivingRoute.empty()) {
+        outputFile << "None";
+    } else {
+        for (size_t i = 0; i < RestrictedDrivingRoute.size(); ++i) {
+            if (i != RestrictedDrivingRoute.size() - 1) {
+                outputFile << RestrictedDrivingRoute[i] << ",";
+            } else {
+                outputFile << RestrictedDrivingRoute[i] << "(" << cost1 <<")";
+            }
+        }
+    }
+    outputFile<<endl;
 }
 
 void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime) {

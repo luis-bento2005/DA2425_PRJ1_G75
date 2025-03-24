@@ -57,7 +57,7 @@ void populateGraphs(Graph<int> *g, string filename) {
         cerr << "Error: Could not open file " << filename << endl;
         return;
     }
-    cout << "File opened successfully!" << endl;
+
     string line;
     getline(file, line);
     while (getline(file, line)) {
@@ -87,7 +87,7 @@ void populateEdges(Graph<int> *g, string filename) {
         cerr << "Error: Could not open file " << filename << endl;
         return;
     }
-    cout << "File opened successfully!" << endl;
+
     string line;
     getline(file, line);
     while (getline(file, line)) {
