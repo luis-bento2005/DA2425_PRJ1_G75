@@ -1,0 +1,99 @@
+\doxysection{src/\+Main/\+Modes/walking.h File Reference}
+\hypertarget{walking_8h}{}\label{walking_8h}\index{src/Main/Modes/walking.h@{src/Main/Modes/walking.h}}
+
+
+Header file for walking route calculations.  
+
+
+{\ttfamily \#include "{}../data\+\_\+structures/\+Graph.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T$>$ }\\bool \mbox{\hyperlink{walking_8h_a24fffa37658bb0541fa3bf02d207321d}{relax}} (\mbox{\hyperlink{class_edge}{Edge}}$<$ T $>$ \texorpdfstring{$\ast$}{*}edge)
+\begin{DoxyCompactList}\small\item\em Relaxation function for Dijkstra\textquotesingle{}s algorithm (walking mode) \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T$>$ }\\void \mbox{\hyperlink{walking_8h_ac8b58e7a2ed50163e19e6275562cc8c9}{dijkstra}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}g, const int \&source)
+\begin{DoxyCompactList}\small\item\em Dijkstra\textquotesingle{}s algorithm implementation for walking routes. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T$>$ }\\double \mbox{\hyperlink{walking_8h_a91e1e37a897648794465c50975eca44d}{get\+Cost}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}g, const int \&dest)
+\begin{DoxyCompactList}\small\item\em Gets the cost (distance) to reach a destination vertex. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for walking route calculations. 
+
+Implements Dijkstra\textquotesingle{}s algorithm specialized for walking routes in the urban navigation system. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{walking_8h_ac8b58e7a2ed50163e19e6275562cc8c9}\index{walking.h@{walking.h}!dijkstra@{dijkstra}}
+\index{dijkstra@{dijkstra}!walking.h@{walking.h}}
+\doxysubsubsection{\texorpdfstring{dijkstra()}{dijkstra()}}
+{\footnotesize\ttfamily \label{walking_8h_ac8b58e7a2ed50163e19e6275562cc8c9} 
+template$<$class T$>$ \\
+void dijkstra (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{g}{, }\item[{const int \&}]{source}{}\end{DoxyParamCaption})}
+
+
+
+Dijkstra\textquotesingle{}s algorithm implementation for walking routes. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type of vertex information \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph object \\
+\hline
+{\em source} & ID of the source vertex\\
+\hline
+\end{DoxyParams}
+Computes shortest paths from source to all other vertices using driving times as edge weights. Maintains a priority queue for efficient extraction of the next vertex to process. \Hypertarget{walking_8h_a91e1e37a897648794465c50975eca44d}\index{walking.h@{walking.h}!getCost@{getCost}}
+\index{getCost@{getCost}!walking.h@{walking.h}}
+\doxysubsubsection{\texorpdfstring{getCost()}{getCost()}}
+{\footnotesize\ttfamily \label{walking_8h_a91e1e37a897648794465c50975eca44d} 
+template$<$class T$>$ \\
+double get\+Cost (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{g}{, }\item[{const int \&}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Gets the cost (distance) to reach a destination vertex. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type of vertex information \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph object \\
+\hline
+{\em dest} & ID of the destination vertex \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The shortest path distance to the destination 
+\end{DoxyReturn}
+\Hypertarget{walking_8h_a24fffa37658bb0541fa3bf02d207321d}\index{walking.h@{walking.h}!relax@{relax}}
+\index{relax@{relax}!walking.h@{walking.h}}
+\doxysubsubsection{\texorpdfstring{relax()}{relax()}}
+{\footnotesize\ttfamily \label{walking_8h_a24fffa37658bb0541fa3bf02d207321d} 
+template$<$class T$>$ \\
+bool relax (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_edge}{Edge}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{edge}{}\end{DoxyParamCaption})}
+
+
+
+Relaxation function for Dijkstra\textquotesingle{}s algorithm (walking mode) 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type of vertex information \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em edge} & Pointer to the edge being relaxed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if relaxation was successful, false otherwise
+\end{DoxyReturn}
+Updates the shortest path estimate if a shorter path is found through the given edge. Uses driving time as the weight metric. 

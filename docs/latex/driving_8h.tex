@@ -1,0 +1,141 @@
+\doxysection{src/\+Main/\+Modes/driving.h File Reference}
+\hypertarget{driving_8h}{}\label{driving_8h}\index{src/Main/Modes/driving.h@{src/Main/Modes/driving.h}}
+
+
+Header file for driving and walking route calculations.  
+
+
+{\ttfamily \#include "{}../data\+\_\+structures/\+Graph.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T$>$ }\\bool \mbox{\hyperlink{driving_8h_a547964546b1659a562cfaef7e091bf6b}{relaxdriving}} (\mbox{\hyperlink{class_edge}{Edge}}$<$ T $>$ \texorpdfstring{$\ast$}{*}edge)
+\begin{DoxyCompactList}\small\item\em Relaxation function for driving routes. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T$>$ }\\bool \mbox{\hyperlink{driving_8h_a230d7905105d1a512f4783d6a730c311}{relaxwalking}} (\mbox{\hyperlink{class_edge}{Edge}}$<$ T $>$ \texorpdfstring{$\ast$}{*}edge)
+\begin{DoxyCompactList}\small\item\em Relaxation function for walking routes. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T$>$ }\\void \mbox{\hyperlink{driving_8h_ac8b58e7a2ed50163e19e6275562cc8c9}{dijkstra}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}g, const int \&source)
+\begin{DoxyCompactList}\small\item\em Dijkstra\textquotesingle{}s algorithm implementation with mode switching. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T$>$ }\\double \mbox{\hyperlink{driving_8h_a91e1e37a897648794465c50975eca44d}{get\+Cost}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}g, const int \&dest)
+\begin{DoxyCompactList}\small\item\em Gets the cost (distance) to reach a destination vertex. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for driving and walking route calculations. 
+
+Implements Dijkstra\textquotesingle{}s algorithm with dual modes (driving/walking) for urban navigation system. Handles route planning with different constraints for each transportation mode. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{driving_8h_ac8b58e7a2ed50163e19e6275562cc8c9}\index{driving.h@{driving.h}!dijkstra@{dijkstra}}
+\index{dijkstra@{dijkstra}!driving.h@{driving.h}}
+\doxysubsubsection{\texorpdfstring{dijkstra()}{dijkstra()}}
+{\footnotesize\ttfamily \label{driving_8h_ac8b58e7a2ed50163e19e6275562cc8c9} 
+template$<$class T$>$ \\
+void dijkstra (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{g}{, }\item[{const int \&}]{source}{}\end{DoxyParamCaption})}
+
+
+
+Dijkstra\textquotesingle{}s algorithm implementation with mode switching. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type of vertex information \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph object \\
+\hline
+{\em source} & ID of the source vertex\\
+\hline
+\end{DoxyParams}
+Computes shortest paths using\+:
+\begin{DoxyItemize}
+\item Driving mode when switchwalking = false
+\item Walking mode when switchwalking = true Uses a priority queue for efficient path calculation 
+\end{DoxyItemize}\Hypertarget{driving_8h_a91e1e37a897648794465c50975eca44d}\index{driving.h@{driving.h}!getCost@{getCost}}
+\index{getCost@{getCost}!driving.h@{driving.h}}
+\doxysubsubsection{\texorpdfstring{getCost()}{getCost()}}
+{\footnotesize\ttfamily \label{driving_8h_a91e1e37a897648794465c50975eca44d} 
+template$<$class T$>$ \\
+double get\+Cost (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{g}{, }\item[{const int \&}]{dest}{}\end{DoxyParamCaption})}
+
+
+
+Gets the cost (distance) to reach a destination vertex. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type of vertex information \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph object \\
+\hline
+{\em dest} & ID of the destination vertex \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The shortest path distance to the destination 
+\end{DoxyReturn}
+\Hypertarget{driving_8h_a547964546b1659a562cfaef7e091bf6b}\index{driving.h@{driving.h}!relaxdriving@{relaxdriving}}
+\index{relaxdriving@{relaxdriving}!driving.h@{driving.h}}
+\doxysubsubsection{\texorpdfstring{relaxdriving()}{relaxdriving()}}
+{\footnotesize\ttfamily \label{driving_8h_a547964546b1659a562cfaef7e091bf6b} 
+template$<$class T$>$ \\
+bool relaxdriving (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_edge}{Edge}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{edge}{}\end{DoxyParamCaption})}
+
+
+
+Relaxation function for driving routes. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type of vertex information \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em edge} & Pointer to the edge being relaxed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if relaxation was successful (shorter path found)
+\end{DoxyReturn}
+Checks\+:
+\begin{DoxyItemize}
+\item If edge is drivable (driving\+Time != -\/1)
+\item If destination node is available
+\item If origin node is available
+\item If a shorter path is found through this edge 
+\end{DoxyItemize}\Hypertarget{driving_8h_a230d7905105d1a512f4783d6a730c311}\index{driving.h@{driving.h}!relaxwalking@{relaxwalking}}
+\index{relaxwalking@{relaxwalking}!driving.h@{driving.h}}
+\doxysubsubsection{\texorpdfstring{relaxwalking()}{relaxwalking()}}
+{\footnotesize\ttfamily \label{driving_8h_a230d7905105d1a512f4783d6a730c311} 
+template$<$class T$>$ \\
+bool relaxwalking (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_edge}{Edge}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{edge}{}\end{DoxyParamCaption})}
+
+
+
+Relaxation function for walking routes. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Type of vertex information \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em edge} & Pointer to the edge being relaxed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if relaxation was successful (shorter path found)
+\end{DoxyReturn}
+Checks\+:
+\begin{DoxyItemize}
+\item If edge is walkable (walking\+Time != -\/1)
+\item If destination node is available
+\item If origin node is available
+\item If a shorter path is found through this edge 
+\end{DoxyItemize}

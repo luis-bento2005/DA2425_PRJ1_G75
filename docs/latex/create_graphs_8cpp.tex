@@ -1,0 +1,65 @@
+\doxysection{src/\+Main/data\+\_\+structures/create\+Graphs.cpp File Reference}
+\hypertarget{create_graphs_8cpp}{}\label{create_graphs_8cpp}\index{src/Main/data\_structures/createGraphs.cpp@{src/Main/data\_structures/createGraphs.cpp}}
+
+
+Implementation of graph creation and manipulation functions.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include "{}./create\+Graphs.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{create_graphs_8cpp_a5450c96e5ffabb11eb68ae9432eba241}{populate\+Graphs}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \texorpdfstring{$\ast$}{*}g, string filename)
+\begin{DoxyCompactList}\small\item\em Populates a graph with vertices from a CSV file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{create_graphs_8cpp_a033a03948613084ca8a53fe19a4660e7}{populate\+Edges}} (\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \texorpdfstring{$\ast$}{*}g, string filename)
+\begin{DoxyCompactList}\small\item\em Populates a graph with edges from a CSV file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of graph creation and manipulation functions. 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{create_graphs_8cpp_a033a03948613084ca8a53fe19a4660e7}\index{createGraphs.cpp@{createGraphs.cpp}!populateEdges@{populateEdges}}
+\index{populateEdges@{populateEdges}!createGraphs.cpp@{createGraphs.cpp}}
+\doxysubsubsection{\texorpdfstring{populateEdges()}{populateEdges()}}
+{\footnotesize\ttfamily \label{create_graphs_8cpp_a033a03948613084ca8a53fe19a4660e7} 
+void populate\+Edges (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \texorpdfstring{$\ast$}{*}}]{g}{, }\item[{string}]{filename}{}\end{DoxyParamCaption})}
+
+
+
+Populates a graph with edges from a CSV file. 
+
+File format should be\+: location1,location2,Driving,Walking
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph to populate \\
+\hline
+{\em filename} & Path to the CSV file containing edge data \\
+\hline
+\end{DoxyParams}
+\Hypertarget{create_graphs_8cpp_a5450c96e5ffabb11eb68ae9432eba241}\index{createGraphs.cpp@{createGraphs.cpp}!populateGraphs@{populateGraphs}}
+\index{populateGraphs@{populateGraphs}!createGraphs.cpp@{createGraphs.cpp}}
+\doxysubsubsection{\texorpdfstring{populateGraphs()}{populateGraphs()}}
+{\footnotesize\ttfamily \label{create_graphs_8cpp_a5450c96e5ffabb11eb68ae9432eba241} 
+void populate\+Graphs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_graph}{Graph}}$<$ int $>$ \texorpdfstring{$\ast$}{*}}]{g}{, }\item[{string}]{filename}{}\end{DoxyParamCaption})}
+
+
+
+Populates a graph with vertices from a CSV file. 
+
+File format should be\+: location,id,code,parking
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph to populate \\
+\hline
+{\em filename} & Path to the CSV file containing vertex data \\
+\hline
+\end{DoxyParams}

@@ -1,3 +1,12 @@
+/**
+* @file driving.h
+ * @brief Header file for driving and walking route calculations
+ *
+ * @details Implements Dijkstra's algorithm with dual modes (driving/walking)
+ * for urban navigation system. Handles route planning with different
+ * constraints for each transportation mode.
+ */
+
 #ifndef DRIVING_H
 #define DRIVING_H
 
@@ -5,6 +14,18 @@
 
 using namespace std;
 
+/**
+ * @brief Relaxation function for driving routes
+ * @tparam T Type of vertex information
+ * @param edge Pointer to the edge being relaxed
+ * @return True if relaxation was successful (shorter path found)
+ *
+ * @details Checks:
+ * - If edge is drivable (drivingTime != -1)
+ * - If destination node is available
+ * - If origin node is available
+ * - If a shorter path is found through this edge
+ */
 template <class T>
 bool relaxdriving(Edge<T> *edge) { //for the driving part of the path
 
@@ -23,6 +44,18 @@ bool relaxdriving(Edge<T> *edge) { //for the driving part of the path
     return false;
 }
 
+/**
+ * @brief Relaxation function for walking routes
+ * @tparam T Type of vertex information
+ * @param edge Pointer to the edge being relaxed
+ * @return True if relaxation was successful (shorter path found)
+ *
+ * @details Checks:
+ * - If edge is walkable (walkingTime != -1)
+ * - If destination node is available
+ * - If origin node is available
+ * - If a shorter path is found through this edge
+ */
 template <class T>
 bool relaxwalking(Edge<T> *edge) { //for the walking part of the path
 
@@ -40,6 +73,18 @@ bool relaxwalking(Edge<T> *edge) { //for the walking part of the path
     }
     return false;
 }
+
+/**
+ * @brief Dijkstra's algorithm implementation with mode switching
+ * @tparam T Type of vertex information
+ * @param g Pointer to the graph object
+ * @param source ID of the source vertex
+ *
+ * @details Computes shortest paths using:
+ * - Driving mode when switchwalking = false
+ * - Walking mode when switchwalking = true
+ * Uses a priority queue for efficient path calculation
+ */
 
 template <class T>
 void dijkstra(Graph<T> * g, const int &source) {
@@ -82,6 +127,18 @@ void dijkstra(Graph<T> * g, const int &source) {
     }
 }
 
+/**
+ * @brief Reconstructs the shortest path from origin to destination
+ * @tparam T Type of vertex information
+ * @param g Pointer to the graph object
+ * @param origin ID of the origin vertex
+ * @param dest ID of the destination vertex
+ * @return Vector containing the sequence of vertex IDs in the path
+ *
+ * @details Traces back the path from destination to origin using
+ * predecessor links, then reverses it to get the correct order.
+ * Validates that the path starts at the correct origin.
+ */
 template <class T>
 static std::vector<T> getPath(Graph<T> * g, const int &origin, const int &dest) {
     std::vector<T> res;
@@ -104,6 +161,13 @@ static std::vector<T> getPath(Graph<T> * g, const int &origin, const int &dest) 
     return res;
 }
 
+/**
+ * @brief Gets the cost (distance) to reach a destination vertex
+ * @tparam T Type of vertex information
+ * @param g Pointer to the graph object
+ * @param dest ID of the destination vertex
+ * @return The shortest path distance to the destination
+ */
 template <class T>
 double getCost(Graph<T> * g, const int &dest) {return g->findVertex(dest)->getDist();}
 #endif //DRIVING_H
