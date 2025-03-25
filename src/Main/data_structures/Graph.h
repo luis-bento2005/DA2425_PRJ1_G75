@@ -49,12 +49,55 @@ public:
     bool removeEdge(T in);
     void removeOutgoingEdges();
 
+    /**
+    * @brief Sets the physical location description of the vertex
+    * @param Location The human-readable location name
+    */
     void setLocation(std::string Location);
+
+    /**
+    * @brief Sets the unique identifier code for the vertex
+    * @param Code The alphanumeric code identifying this location
+    */
     void setCode(std::string Code);
+
+    /**
+    * @brief Gets the vertex's unique identifier code
+    * @return The code string that identifies this vertex
+    * @see setCode()
+    */
     std::string getCode() const;
+
+    /**
+    * @brief Sets the parking availability at this vertex
+    * @param Parking true if parking is available at this location, false otherwise
+    */
     void setParking(bool Parking);
+
+    /**
+     * @brief Sets the node's availability status for routing algorithms
+     * @param Available The availability state:
+     *        - -1 = Node blocked (avoided in routes)
+     *        -  0 = Normally available (default state)
+     *        -  1 = Specially included (required in routes)
+     */
     void setAvailable(int Available);
+
+    /**
+    * @brief Gets the current routing availability state
+    * @return The availability state:
+    *        - -1 = Blocked
+    *        -  0 = Normal
+    *        -  1 = Required
+    * @see setAvailable()
+    */
     int getAvailable() const;
+
+    /**
+    * @brief Quick check for parking availability
+    * @return true if parking is available, false otherwise
+    * @see setParking()
+    */
     bool getParking() const {
         return this->parking;
     }
@@ -78,9 +121,35 @@ protected:
 
     void deleteEdge(Edge<T> *edge);
 
+    /**
+    * @var std::string Vertex::Location
+    * @brief Human-readable description of the vertex's physical location
+    */
     std::string Location;
+
+    /**
+    * @var std::string Vertex::Code
+    * @brief Unique alphanumeric identifier for the vertex
+    */
     std::string Code;
+
+    /**
+    * @var bool Vertex::parking
+    * @brief Parking availability flag
+    * @details
+    * - true: Vertex is a valid parking location
+    * - false: Vertex cannot be used for parking transitions
+    */
     bool parking = false;
+
+    /**
+    * @var int Vertex::available
+    * @brief Routing availability state (-1, 0, or 1)
+    * @details State meanings:
+    * - -1 = Node blocked (excluded from all routes)
+    * -  0 = Normally available (default state)
+    * -  1 = Required inclusion (forces routing through node)
+    */
     int available = 0; // -1,0,1
 };
 
@@ -92,7 +161,17 @@ public:
     Edge(Vertex<T> *orig, Vertex<T> *dest, int Driving, int Walking);
 
     Vertex<T> * getDest() const;
+
+    /**
+    * @brief Gets the driving time between vertices
+    * @return Driving time in minutes
+    */
     int getDrivingTime() const;
+
+    /**
+    * @brief Gets the walking time between vertices
+    * @return Walking time in minutes
+    */
     int getWalkingTime() const;
     bool isSelected() const;
     Vertex<T> * getOrig() const;
@@ -104,7 +183,17 @@ public:
     void setFlow(double flow);
 protected:
     Vertex<T> * dest; // destination vertex
+
+    /**
+    * @var int Edge::driving
+    * @brief Driving time between vertices in minutes
+    */
     int driving;
+
+    /**
+    * @var int Edge::walking
+    * @brief Walking time between vertices in minutes
+    */
     int walking; //
     // auxiliary fields
     bool selected = false;
@@ -126,6 +215,12 @@ public:
     * Auxiliary function to find a vertex with a given the content.
     */
     Vertex<T> *findVertex(const T &in) const;
+
+    /**
+    * @brief Finds a vertex by its unique location code
+    * @param in The alphanumeric code to search for
+    * @return Pointer to the vertex if found, nullptr otherwise
+    */
     Vertex<T> *findCode(const std::string &in) const;
     /*
      *  Adds a vertex with a given content or info (in) to a graph (this).
@@ -146,7 +241,22 @@ public:
     int getNumVertex() const;
     std::vector<Vertex<T> *> getVertexSet() const;
 
+    /**
+    * @var int Graph::includenodevar
+    * @brief Special node inclusion flag for restricted routing
+    * @details
+    * - Default: -1 (no forced inclusion)
+    * - When set to a vertex ID, routes must pass through this node
+    */
     int includenodevar = -1;
+
+    /**
+    * @var bool Graph::switchwalking
+    * @brief Transportation mode selector for routing algorithms
+    * @details
+    * - false: Use driving times (default mode)
+    * - true: Use walking times
+    */
     bool switchwalking = false; //false means driving true means walking
 
 protected:
@@ -218,31 +328,60 @@ void Vertex<T>::removeOutgoingEdges() {
     }
 }
 //New Code
+
+/**
+ * @brief Sets the human-readable location description of the vertex
+ * @param Location Descriptive string
+ */
 template<class T>
 void Vertex<T>::setLocation(std::string Location) {
     this->Location = Location;
 }
 
+/**
+ * @brief Sets the unique alphanumeric identifier for the vertex
+ * @param Code Unique code string
+ * @warning Must be unique across all vertices in the graph
+ */
 template<class T>
 void Vertex<T>::setCode(std::string Code) {
     this->Code = Code;
 }
 
+/**
+ * @brief Retrieves the vertex's unique identifier code
+ * @return The vertex's code string
+ */
 template<class T>
 std::string Vertex<T>::getCode() const{
     return this->Code;
 }
 
+/**
+ * @brief Sets parking availability at this vertex
+ * @param Parking true if vertex is a valid parking location
+*/
 template<class T>
 void Vertex<T>::setParking(bool Parking) {
     this->parking = Parking;
 }
 
+/**
+ * @brief Sets vertex availability for routing algorithms
+ * @param Available Node state:
+ *        - -1 = Blocked (excluded from routes)
+ *        -  0 = Normal availability
+ *        -  1 = Required inclusion
+*/
 template<class T>
 void Vertex<T>::setAvailable(int Available) {
     this->available = Available;
 }
 
+/**
+ * @brief Gets current routing availability state
+ * @return Current availability value (-1, 0, or 1)
+ */
 template<class T>
 int Vertex<T>::getAvailable() const {
     return this->available;
@@ -370,11 +509,19 @@ Vertex<T> * Edge<T>::getDest() const {
     return this->dest;
 }
 
+/**
+ * @brief Retrieves the driving time for this edge
+ * @return Driving time in minutes
+ */
 template<class T>
 int Edge<T>::getDrivingTime() const {
     return this->driving;
 }
 
+/**
+ * @brief Retrieves the walking time for this edge
+ * @return Walking time in minutes
+*/
 template<class T>
 int Edge<T>::getWalkingTime() const {
     return this->walking;
@@ -438,6 +585,11 @@ Vertex<T> * Graph<T>::findVertex(const T &in) const {
     return nullptr;
 }
 
+/**
+ * @brief Finds a vertex by its unique location code
+ * @param in The alphanumeric code to search for
+ * @return Pointer to the vertex if found, nullptr if not found
+ */
 template<class T>
 Vertex<T> * Graph<T>::findCode(const std::string &in) const {
     for (auto v : vertexSet)
