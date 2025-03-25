@@ -126,7 +126,7 @@ void CommandLine(Graph<int> &g) {
 }
 
 void printOutput() {
-    string filename = "../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt";
+    string filename = "../../DA2425_PRJ1_G75/src/Main/BatchMode/output.txt";
     std::ifstream file;
     file.open(filename);
     if (!file.is_open()) {
@@ -399,7 +399,7 @@ void ModeDriving(Graph<int> &g, int source, int destination) {
     std::vector<int> AlternativeDrivingRoute = getPath(&g, source, destination);
     int cost2 = getCost(&g, destination);
 
-    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt");
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/output.txt");
     if (!outputFile) {  // Check if the file opened successfully
         std::cerr << "Error: Could not open the file!" << std::endl;
         return;
@@ -470,7 +470,7 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
         cost1 =getCost(&g, destination);
     }
 
-    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt");
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/output.txt");
     if (!outputFile) {  // Check if the file opened successfully
         std::cerr << "Error: Could not open the file!" << std::endl;
         return;
@@ -515,7 +515,7 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
         std::cout<<"AvoidSegments: "; avoidSegmentLine(g);
     }
 
-    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt");
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/output.txt");
     if (!outputFile) {  // Check if the file opened successfully
         std::cerr << "Error: Could not open the file!" << std::endl;
         return;
