@@ -802,6 +802,8 @@ void ModeDrivingandWalkingOutput(Graph<int> &g, int source, int destination, int
         std::cerr << "Error: Could not open the file!" << std::endl;
         return;
     }
+
+
     //ensuring source and destination are not parking nodes
     if (g.findVertex(source)->getParking() || g.findVertex(destination)->getParking()) {
         outputFile << "Source or destination cannot be parking nodes." << std::endl;
@@ -846,9 +848,8 @@ void ModeDrivingandWalkingOutput(Graph<int> &g, int source, int destination, int
         int walkingTime = getCost(&g, destination);
 
         //checking if walking time is within the limit
+        int totalTime = drivingTime + walkingTime;
         if (walkingTime <= maxWalkTime) {
-            int totalTime = drivingTime + walkingTime;
-
             //update best route if this one is better
             if (totalTime < bestTotalTime || (totalTime == bestTotalTime && walkingTime > bestWalkingTime)) {
                 bestDrivingRoute = drivingRoute;
@@ -858,6 +859,27 @@ void ModeDrivingandWalkingOutput(Graph<int> &g, int source, int destination, int
                 bestDrivingTime = drivingTime;
                 bestWalkingTime = walkingTime;
             }
+        } else {
+            if (totalTime < approximatesolution1.totaltime) {
+                if (approximatesolution2.totaltime == INT8_MAX || approximatesolution1.totaltime > approximatesolution2.totaltime) {
+                    approximatesolution2.DrivingRoute = approximatesolution1.DrivingRoute;
+                    approximatesolution2.ParkingNode = approximatesolution1.ParkingNode;
+                    approximatesolution2.WalkingRoute = approximatesolution1.WalkingRoute;
+                    approximatesolution2.walkingtime = approximatesolution1.walkingtime;
+                    approximatesolution2.drivingtime = approximatesolution1.drivingtime;
+                }
+                approximatesolution1.DrivingRoute = drivingRoute;
+                approximatesolution1.ParkingNode = parkingNode;
+                approximatesolution1.WalkingRoute = walkingRoute;
+                approximatesolution1.walkingtime = walkingTime;
+                approximatesolution1.drivingtime = drivingTime;
+            } else if (totalTime < approximatesolution2.totaltime) {
+                approximatesolution2.DrivingRoute = drivingRoute;
+                approximatesolution2.ParkingNode = parkingNode;
+                approximatesolution2.WalkingRoute = walkingRoute;
+                approximatesolution2.walkingtime = walkingTime;
+                approximatesolution2.drivingtime = drivingTime;
+            }
         }
     }
 
@@ -865,36 +887,72 @@ void ModeDrivingandWalkingOutput(Graph<int> &g, int source, int destination, int
     outputFile << "Source: " << source << std::endl;
     outputFile << "Destination: " << destination << std::endl;
     if (bestParkingNode == -1) {
-        outputFile << "DrivingRoute: " << std::endl;
-        outputFile << "ParkingNode: " << std::endl;
-        outputFile << "WalkingRoute: " << std::endl;
-        outputFile << "Total Time: "  << std::endl;
         outputFile << "Message: No possible route with max. walking time of " << maxWalkTime << " minutes." << std::endl;
+        if (approximatesolution1.walkingtime != -1) {
+                outputFile << "DrivingRoute1: ";
+                for (size_t i = 0; i < approximatesolution1.DrivingRoute.size(); ++i) {
+                    if (i != approximatesolution1.DrivingRoute.size() - 1) {
+                        outputFile << approximatesolution1.DrivingRoute[i] << ",";
+                    } else {
+                        outputFile << approximatesolution1.DrivingRoute[i] << "(" << approximatesolution1.drivingtime << ")" << std::endl;
+                    }
+                }
+                outputFile << "ParkingNode1: " << approximatesolution1.ParkingNode << std::endl;
+                outputFile << "WalkingRoute1: ";
+                for (size_t i = 0; i < approximatesolution1.WalkingRoute.size(); ++i) {
+                    if (i != approximatesolution1.WalkingRoute.size() - 1) {
+                        outputFile << approximatesolution1.WalkingRoute[i] << ",";
+                    } else {
+                        outputFile << approximatesolution1.WalkingRoute[i] << "(" << approximatesolution1.walkingtime << ")" << std::endl;
+                    }
+                }
+                outputFile << "TotalTime1: " << (approximatesolution1.walkingtime + approximatesolution1.drivingtime) << std::endl;
+
+                if (approximatesolution2.walkingtime != -1) {
+                    outputFile << "DrivingRoute2: ";
+                    for (size_t i = 0; i < approximatesolution2.DrivingRoute.size(); ++i) {
+                        if (i != approximatesolution2.DrivingRoute.size() - 1) {
+                            outputFile << approximatesolution2.DrivingRoute[i] << ",";
+                        } else {
+                            outputFile << approximatesolution2.DrivingRoute[i] << "(" << approximatesolution2.drivingtime << ")" << std::endl;
+                        }
+                    }
+                    outputFile << "ParkingNode2: " << approximatesolution2.ParkingNode << std::endl;
+                    outputFile << "WalkingRoute2: ";
+                    for (size_t i = 0; i < approximatesolution2.WalkingRoute.size(); ++i) {
+                        if (i != approximatesolution2.WalkingRoute.size() - 1) {
+                            outputFile << approximatesolution2.WalkingRoute[i] << ",";
+                        } else {
+                            outputFile << approximatesolution2.WalkingRoute[i] << "(" << approximatesolution2.walkingtime << ")" << std::endl;
+                        }
+                    }
+                    outputFile << "TotalTime2: " << (approximatesolution2.walkingtime + approximatesolution2.drivingtime) << std::endl;
+                }
+            } else {
+                outputFile << "DrivingRoute:none" << std::endl;
+                outputFile << "ParkingNode:none" << std::endl;
+                outputFile << "WalkingRoute:none" << std::endl;
+            }
     } else {
-        if (bestDrivingRoute.empty() || bestWalkingRoute.empty()) {
-            outputFile << "DrivingRoute:none" << std::endl;
-            outputFile << "ParkingNode:none" << std::endl;
-            outputFile << "WalkingRoute:none" << std::endl;
-        } else {
-            outputFile << "DrivingRoute: ";
-            for (size_t i = 0; i < bestDrivingRoute.size(); ++i) {
-                if ( i != bestDrivingRoute.size() - 1) {
-                    outputFile << bestDrivingRoute[i] << ",";
-                } else {
-                    outputFile << bestDrivingRoute[i] << "(" << bestDrivingTime << ")" << std::endl;
-                }
+        outputFile << "DrivingRoute: ";
+        for (size_t i = 0; i < bestDrivingRoute.size(); ++i) {
+            if ( i != bestDrivingRoute.size() - 1) {
+            outputFile << bestDrivingRoute[i] << ",";
+            } else {
+            outputFile << bestDrivingRoute[i] << "(" << bestDrivingTime << ")" << std::endl;
             }
-            outputFile << "ParkingNode: " << bestParkingNode << std::endl;
-            outputFile << "WalkingRoute: ";
-            for (size_t i = 0; i < bestWalkingRoute.size(); ++i) {
-                if (i != bestWalkingRoute.size() - 1) {
-                    outputFile << bestWalkingRoute[i] << ",";
-                } else {
-                    outputFile << bestWalkingRoute[i] << "(" << bestWalkingTime << ")" << std::endl;
-                }
-            }
-            outputFile << "TotalTime: " << bestTotalTime << std::endl;
         }
+        outputFile << "ParkingNode: " << bestParkingNode << std::endl;
+        outputFile << "WalkingRoute: ";
+        for (size_t i = 0; i < bestWalkingRoute.size(); ++i) {
+            if (i != bestWalkingRoute.size() - 1) {
+            outputFile << bestWalkingRoute[i] << ",";
+            } else {
+                outputFile << bestWalkingRoute[i] << "(" << bestWalkingTime << ")" << std::endl;
+            }
+        }
+        outputFile << "TotalTime: " << bestTotalTime << std::endl;
     }
+
     outputFile.close();
 }
