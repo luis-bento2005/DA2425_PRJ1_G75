@@ -8,6 +8,7 @@
  * combined driving-walking modes.
  */
 
+#include <climits>
 #include <iostream>
 #include <sstream>
 #include <stdint.h>
@@ -40,9 +41,9 @@ typedef struct {
     std::vector<int> DrivingRoute;
     int ParkingNode = -1;
     std::vector<int> WalkingRoute;
-    int drivingtime = INT8_MAX;
-    int walkingtime = INT8_MAX;
-    int totaltime = INT8_MAX;
+    int drivingtime = INT_MAX;
+    int walkingtime = INT_MAX;
+    int totaltime = INT_MAX;
 } ApproximateSolution;
 ApproximateSolution approximatesolution1, approximatesolution2;
 
@@ -563,9 +564,9 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
         g.switchwalking = false;
         std::vector<int> walkingRoute = getPath(&g, parkingNode, destination);
         int walkingTime = getCost(&g, destination);
-
         //checking if walking time is within the limit
         int totalTime = drivingTime + walkingTime;
+
         if (walkingTime <= maxWalkTime) {
             //update best route if this one is better
             if (totalTime < bestTotalTime || (totalTime == bestTotalTime && walkingTime > bestWalkingTime)) {
@@ -578,7 +579,7 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
             }
         } else {
             if (walkingTime < approximatesolution1.walkingtime) {
-                if (approximatesolution2.totaltime == INT8_MAX || approximatesolution1.totaltime > approximatesolution2.totaltime) {
+                if (approximatesolution2.totaltime == INT_MAX || approximatesolution1.totaltime < approximatesolution2.totaltime) {
                     approximatesolution2.DrivingRoute = approximatesolution1.DrivingRoute;
                     approximatesolution2.ParkingNode = approximatesolution1.ParkingNode;
                     approximatesolution2.WalkingRoute = approximatesolution1.WalkingRoute;

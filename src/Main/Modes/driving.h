@@ -59,7 +59,7 @@ bool relaxdriving(Edge<T> *edge) { //for the driving part of the path
 template <class T>
 bool relaxwalking(Edge<T> *edge) { //for the walking part of the path
 
-    if (edge->getDrivingTime() == -1) {return false;} //can't drive on that edge
+    if (edge->getWalkingTime() == -1) {return false;} //can't drive on that edge
 
     Vertex<T> *v = edge->getDest();
     if (v->getAvailable() == -1) {return false;}
