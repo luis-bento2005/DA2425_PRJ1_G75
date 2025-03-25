@@ -1,3 +1,4 @@
+#include <fstream>
 /**
  * @file main.cpp
  * @brief Main implementation file for the route planning system
@@ -16,39 +17,21 @@
 #include "Modes/driving.h"
 
 void CommandLine(Graph<int> &g);
+void BatchModeLine(Graph<int> &g);
+void BatchModeLineDriving(Graph<int> &g,std::ifstream &file);
+void BatchModeLineDriving_Walking(Graph<int> &g,std::ifstream &file);
 void ModeDriving(Graph<int> &g, int source, int destination);
 void ModeDrivingRestrictions(Graph<int> &g, int source, int destination);
 void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime);
 void avoidNodesLine(Graph<int> &g);
 void avoidSegmentLine(Graph<int> &g);
+void printOutput();
 
 
 /**
- * @brief Global flag to enable pre-configured test scenarios
+ * @brief Global flag to enable Restrictions scenarios
  */
-bool enablepreconfig = false;
-
-/*
-PRESS "q" ON THE CONSOLE TO ENABLE PREVIOUSLY DEFINED OPTIONS
-*/
-
-/**
- * @brief Pre-configured test parameters
- * @{
- */
-std::string presetmode = "driving-walking"; ///< Default operation mode
-int presetsource = 1; ///< Default source node ID
-int presetdestination = 8; ///< Default destination node ID
-std::string presetrestrictions = "N"; ///< Default restrictions
-std::string presetavoidNodes = ""; ///< Nodes to avoid in pre-configured mode
-std::string presetavoidSegment = ""; ///< Segments to avoid in pre-configured mode
-std::string presetIncludeNode = ""; ///< Node to include in pre-configured mode
-int presetmaxWalkTime = 1; ///< Max walking time in pre-configured mode
-/** @} */
-
-/*
-PRESS "q" ON THE CONSOLE TO ENABLE PREVIOUSLY DEFINED OPTIONS
-*/
+bool enableRestrictions = false;
 
 /**
  * @brief Structure to store approximate solutions when no perfect route is found
@@ -73,22 +56,23 @@ ApproximateSolution approximatesolution1, approximatesolution2;
  * for route planning operations.
  */
 int main() {
-    string folder = "../../DA2425_PRJ1_G75/src/Main/For_Students";
+    string folder = "../../DA2425_PRJ1_G75/src/Main/CreateGraph";
 
     bool CML = true;
     while (CML) {
         Graph<int> g = createGraphs::graphFromFile(folder);
         string input;
-        std::cout<< "If you want to Use Command Line press 'Y'" <<endl;
+        std::cout<< "If you want to Use Command Line press 'Y', if you want to Use Batch Mode Press 'T'" <<endl;
         std::cin >> input;
-        if (input == "e") {
-            enablepreconfig = true;
+        if (input == "Y" or input == "y") {
             CommandLine(g);
-        } else if (input == "Y" or input == "y") {
-            CommandLine(g);
-        }else {
+        } else if (input == "T" or input == "t") {
+            BatchModeLine(g);
+        }
+        else {
             CML = false;
         }
+        enableRestrictions = false;
     }
 
     return 0;
@@ -105,83 +89,230 @@ int main() {
  * - Pre-configured test scenarios
  */
 void CommandLine(Graph<int> &g) {
-    if (enablepreconfig == true) {
-        if (presetrestrictions == "Y") {
-            std::getline(std::cin, presetavoidNodes);
-            std::istringstream iss(presetavoidNodes);
-            int Vertex;
-            while (iss >> Vertex) {
-                g.findVertex(Vertex)->setAvailable(-1);
-            }
+    bool restrictions = false;
+    std::cout << "Choose one of the Modes (Driving, Driving-walking)" << std::endl;
+    std::string mode;
+    std::cin >> mode;
 
-            std::istringstream iss2(presetavoidSegment);
-            char discard;
-
-            while (iss2 >> discard && discard == '(') {
-                int source, destination;
-                char comma;
-
-                if (!(iss >> source >> comma >> destination)) {
-                    break;
-                }
-
-                iss >> discard;
-                if (discard != ')') {
-                    break;
-                }
-                g.findVertex(source)->removeEdge(destination);
-                g.findVertex(destination)->removeEdge(source);
-
-                if (iss.peek() == ',') {
-                    iss.ignore();
-                }
-            }
-
-            std::istringstream iss3(presetIncludeNode);
-            int Vertex2;
-            while (iss >> Vertex2) {
-                g.findVertex(Vertex2)->setAvailable(1);
-                g.includenodevar = Vertex2;
-            }
-
-            ModeDrivingRestrictions(g, presetsource, presetdestination);
-        } else if (presetmode == "Driving-walking" || presetmode == "driving-walking") {
-            ModeDrivingandWalking(g, presetsource, presetdestination, presetmaxWalkTime);
-        } else {
-            ModeDriving(g, presetsource, presetdestination);
-        }
-        enablepreconfig = false;
-    } else {
-        bool restrictions = false;
-        std::cout << "Choose one of the Modes (Driving, Driving-walking)" << std::endl;
-        std::string mode;
-        std::cin >> mode;
-
-        if (mode == "Driving" || mode == "driving") {
-            std::cout << "If you want Restrictions press Y or N" << std::endl;
-            std::string input;
-            std::cin >> input;
-            if (input == "Y" || input == "y") {restrictions = true;}
-        }
-
-        int source;
-        int destination;
-        std::cout << "Source: "; std::cin >> source;
-        std::cout << "Destination: "; std::cin >> destination;
-
-
-        if (mode == "Driving" || mode == "driving") {
-            if (restrictions) {
-                ModeDrivingRestrictions(g, source, destination);
-            } else {
-                ModeDriving(g, source, destination);
-            }
-        } else if (mode == "Driving-walking" || mode == "driving-walking") {
-            int maxWalkTime;
-            std::cout << "MaxWalkTime: "; std::cin >> maxWalkTime;
-            ModeDrivingandWalking(g, source, destination, maxWalkTime);
-        }
+    if (mode == "Driving" || mode == "driving") {
+        std::cout << "If you want Restrictions press Y or N" << std::endl;
+        std::string input;
+        std::cin >> input;
+        if (input == "Y" || input == "y") {restrictions = true;}
     }
+
+    int source;
+    int destination;
+    std::cout << "Source: "; std::cin >> source;
+    std::cout << "Destination: "; std::cin >> destination;
+
+
+    if (mode == "Driving" || mode == "driving") {
+        if (restrictions) {
+            enableRestrictions = true;
+            ModeDrivingRestrictions(g, source, destination);
+        } else {
+            ModeDriving(g, source, destination);
+        }
+    } else if (mode == "Driving-walking" || mode == "driving-walking") {
+        int maxWalkTime;
+        enableRestrictions = true;
+        std::cout << "MaxWalkTime: "; std::cin >> maxWalkTime;
+        ModeDrivingandWalking(g, source, destination, maxWalkTime);
+    }
+    printOutput();
+
+}
+
+void printOutput() {
+    string filename = "../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt";
+    std::ifstream file;
+    file.open(filename);
+    if (!file.is_open()) {
+        cerr << "Error: Could not open file " << filename << endl;
+        return ;
+    }
+    string line;
+    while (std::getline(file, line)) {
+        std::cout << line << std::endl;
+    }
+}
+
+void BatchModeLine(Graph<int> &g) {
+    string filename = "../../DA2425_PRJ1_G75/src/Main/BatchMode/input.txt";
+    ifstream file;
+    file.open(filename);
+    if (!file.is_open()) {
+        cerr << "Error: Could not open file " << filename << endl;
+        return;
+    }
+    string Mode;
+    getline(file, Mode);
+    if (Mode == "Mode:Driving" || Mode == "Mode:driving") {
+        BatchModeLineDriving(g,file);
+    }
+    else if (Mode == "Mode:driving-walking" || Mode == "Mode:Driving-walking") {
+        BatchModeLineDriving_Walking(g,file);
+    }
+
+    file.close();
+}
+
+void BatchModeLineDriving(Graph<int> &g,std::ifstream &file) {
+    int count = 0;
+    string line;
+    int source, destination;
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string paramenter;
+        string value;
+        switch (count) {
+            case 0: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                source = stoi(value);
+                break;
+            }
+            case 1: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                destination = stoi(value);
+                break;
+            }
+            case 2: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                std::istringstream iss2(value);
+                int Vertex;
+                while (iss2 >> Vertex) {
+                    g.findVertex(Vertex)->setAvailable(-1);
+                }
+                break;
+            }
+            case 3: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                std::istringstream iss3(value);
+                char discard;
+
+                while (iss3 >> discard && discard == '(') {
+                    int source1, destination1;
+                    char comma;
+
+                    if (!(iss3 >> source1 >> comma >> destination1)) {
+                        break;
+                    }
+                    iss3 >> discard;
+                    if (discard != ')') {
+                        break;
+                    }
+                    g.findVertex(source1)->removeEdge(destination1);
+                    g.findVertex(destination1)->removeEdge(source1);
+
+                    if (iss3.peek() == ',') {
+                        iss3.ignore();
+                    }
+                }
+                break;
+            }
+            case 4: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                std::istringstream iss4(value);
+                int Vertex_Node;
+                while (iss4 >> Vertex_Node) {
+                    g.findVertex(Vertex_Node)->setAvailable(1);
+                    g.includenodevar = Vertex_Node;
+                }
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        count++;
+    }
+
+    if (count == 2) {
+        ModeDriving(g, source, destination);
+    }
+    else {
+        ModeDrivingRestrictions(g, source, destination);
+    }
+}
+void BatchModeLineDriving_Walking(Graph<int> &g,std::ifstream &file) {
+    string line;
+    int count = 0;
+    int source, destination, max_walk_time;
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string paramenter;
+        string value;
+        switch (count) {
+            case 0: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                source = stoi(value);
+                break;
+            }
+            case 1: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                destination = stoi(value);
+                break;
+            }
+            case 2: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                max_walk_time = stoi(value);
+                break;
+            }
+            case 3: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                std::istringstream iss1(value);
+                char discard;
+
+                while (iss1 >> discard && discard == '(') {
+                    int source1, destination1;
+                    char comma;
+
+                    if (!(iss1 >> source1 >> comma >> destination1)) {
+                        break;
+                    }
+
+                    iss1 >> discard;
+                    if (discard != ')') {
+                        break;
+                    }
+                    g.findVertex(source1)->removeEdge(destination1);
+                    g.findVertex(destination1)->removeEdge(source1);
+
+                    if (iss1.peek() == ',') {
+                        iss1.ignore();
+                    }
+                }
+                break;
+            }
+            case 4: {
+                getline(iss,paramenter,':');
+                getline(iss,value);
+                std::istringstream iss2(value);
+                int Vertex_Node;
+                while (iss2 >> Vertex_Node) {
+                    g.findVertex(Vertex_Node)->setAvailable(1);
+                    g.includenodevar = Vertex_Node;
+                }
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        count++;
+    }
+
+    ModeDrivingandWalking(g,source,destination,max_walk_time);
 }
 
 /**
@@ -266,33 +397,40 @@ void ModeDriving(Graph<int> &g, int source, int destination) {
     dijkstra(&g, source);
     std::vector<int> AlternativeDrivingRoute = getPath(&g, source, destination);
     int cost2 = getCost(&g, destination);
-    std::cout<<"Source: " <<source<<endl;
-    std::cout<<"Destination: " <<destination<<endl;
-    std::cout<<"BestDrivingRoute: ";
+
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt");
+    if (!outputFile) {  // Check if the file opened successfully
+        std::cerr << "Error: Could not open the file!" << std::endl;
+        return;
+    }
+
+    outputFile<<"Source: "<<source<<endl;
+    outputFile<<"Destination: "<<destination<<endl;
+    outputFile<<"BestDrivingRoute: ";
     if (bestDrivingRoute.empty()) {
-        std::cout << "None";
+        outputFile << "None";
     } else {
         for (size_t i = 0; i < bestDrivingRoute.size(); ++i) {
             if (i != bestDrivingRoute.size() - 1) {
-                std::cout << bestDrivingRoute[i] << ",";
+                outputFile<< bestDrivingRoute[i] << ",";
             } else {
-                std::cout << bestDrivingRoute[i] << "(" << cost1 <<")";
+                outputFile << bestDrivingRoute[i] << "(" << cost1 <<")";
             }
         }
     }
-    std::cout<<endl<<"AlternativeDrivingRoute: ";
+    outputFile<<endl<<"AlternativeDrivingRoute: ";
     if (AlternativeDrivingRoute.empty()) {
-        std::cout << "None";
+        outputFile << "None";
     } else {
         for (size_t i = 0; i < AlternativeDrivingRoute.size(); ++i) {
             if (i != AlternativeDrivingRoute.size() - 1) {
-                std::cout << AlternativeDrivingRoute[i] << ",";
+                outputFile << AlternativeDrivingRoute[i] << ",";
             } else {
-                std::cout << AlternativeDrivingRoute[i] << "(" << cost2 <<")";
+                outputFile << AlternativeDrivingRoute[i] << "(" << cost2 <<")";
             }
         }
     }
-    std::cout<<endl;
+    outputFile.close();
 }
 
 /**
@@ -307,7 +445,7 @@ void ModeDriving(Graph<int> &g, int source, int destination) {
  * - Required nodes to include
  */
 void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
-    if (!enablepreconfig) {
+    if (enableRestrictions) {
         std::cin.ignore();
         std::cout<<"AvoidNodes: "; avoidNodesLine(g);
         std::cout<<"AvoidSegments: "; avoidSegmentLine(g);
@@ -331,21 +469,26 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
         cost1 =getCost(&g, destination);
     }
 
-    std::cout<<"Source: " <<source<<endl;
-    std::cout<<"Destination: " <<destination<<endl;
-    std::cout<<"RestrictedDrivingRoute: ";
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt");
+    if (!outputFile) {  // Check if the file opened successfully
+        std::cerr << "Error: Could not open the file!" << std::endl;
+        return;
+    }
+    outputFile<<"Source: " <<source<<endl;
+    outputFile<<"Destination: " <<destination<<endl;
+    outputFile<<"RestrictedDrivingRoute: ";
     if (RestrictedDrivingRoute.empty()) {
-        std::cout << "None";
+        outputFile << "None";
     } else {
         for (size_t i = 0; i < RestrictedDrivingRoute.size(); ++i) {
             if (i != RestrictedDrivingRoute.size() - 1) {
-                std::cout << RestrictedDrivingRoute[i] << ",";
+                outputFile << RestrictedDrivingRoute[i] << ",";
             } else {
-                std::cout << RestrictedDrivingRoute[i] << "(" << cost1 <<")";
+                outputFile << RestrictedDrivingRoute[i] << "(" << cost1 <<")";
             }
         }
     }
-    std::cout<<endl;
+    outputFile<<endl;
 }
 
 /**
@@ -365,22 +508,29 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
  */
 
 void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime) {
-    if (!enablepreconfig) {
+    if (enableRestrictions) {
         std::cin.ignore();
         std::cout<<"AvoidNodes: "; avoidNodesLine(g);
         std::cout<<"AvoidSegments: "; avoidSegmentLine(g);
     }
 
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/Output.txt");
+    if (!outputFile) {  // Check if the file opened successfully
+        std::cerr << "Error: Could not open the file!" << std::endl;
+        return;
+    }
+
+
     //ensuring source and destination are not parking nodes
     if (g.findVertex(source)->getParking() || g.findVertex(destination)->getParking()) {
-        std::cout << "Source or destination cannot be parking nodes." << std::endl;
+        outputFile << "Source or destination cannot be parking nodes." << std::endl;
         return;
     }
 
     //ensuring source and destination are not adjacent
     for (auto edge : g.findVertex(source)->getAdj()) {
         if (edge->getDest()->getInfo() == destination) {
-            std::cout <<  "Source and destination cannot be adjacent nodes." << std::endl;
+            outputFile <<  "Source and destination cannot be adjacent nodes." << std::endl;
             return;
         }
     }
@@ -427,7 +577,7 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
                 bestWalkingTime = walkingTime;
             }
         } else {
-            if (totalTime < approximatesolution1.totaltime) {
+            if (walkingTime < approximatesolution1.walkingtime) {
                 if (approximatesolution2.totaltime == INT8_MAX || approximatesolution1.totaltime > approximatesolution2.totaltime) {
                     approximatesolution2.DrivingRoute = approximatesolution1.DrivingRoute;
                     approximatesolution2.ParkingNode = approximatesolution1.ParkingNode;
@@ -440,7 +590,7 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
                 approximatesolution1.WalkingRoute = walkingRoute;
                 approximatesolution1.walkingtime = walkingTime;
                 approximatesolution1.drivingtime = drivingTime;
-            } else if (totalTime < approximatesolution2.totaltime) {
+            } else if (walkingTime < approximatesolution2.walkingtime) {
                 approximatesolution2.DrivingRoute = drivingRoute;
                 approximatesolution2.ParkingNode = parkingNode;
                 approximatesolution2.WalkingRoute = walkingRoute;
@@ -451,73 +601,75 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
     }
 
     //output the best route
-    std::cout << "Source: " << source << std::endl;
-    std::cout << "Destination: " << destination << std::endl;
+    outputFile << "Source: " << source << std::endl;
+    outputFile << "Destination: " << destination << std::endl;
     if (bestParkingNode == -1) {
-        std::cout << "Message: No possible route with max. walking time of " << maxWalkTime << " minutes." << std::endl;
+        outputFile << "Message: No possible route with max. walking time of " << maxWalkTime << " minutes." << std::endl;
         if (approximatesolution1.walkingtime != -1) {
-                std::cout << "DrivingRoute1: ";
+                outputFile << "DrivingRoute1: ";
                 for (size_t i = 0; i < approximatesolution1.DrivingRoute.size(); ++i) {
                     if (i != approximatesolution1.DrivingRoute.size() - 1) {
-                        std::cout << approximatesolution1.DrivingRoute[i] << ",";
+                        outputFile << approximatesolution1.DrivingRoute[i] << ",";
                     } else {
-                        std::cout << approximatesolution1.DrivingRoute[i] << "(" << approximatesolution1.drivingtime << ")" << std::endl;
+                        outputFile << approximatesolution1.DrivingRoute[i] << "(" << approximatesolution1.drivingtime << ")" << std::endl;
                     }
                 }
-                std::cout << "ParkingNode1: " << approximatesolution1.ParkingNode << std::endl;
-                std::cout << "WalkingRoute1: ";
+                outputFile << "ParkingNode1: " << approximatesolution1.ParkingNode << std::endl;
+                outputFile << "WalkingRoute1: ";
                 for (size_t i = 0; i < approximatesolution1.WalkingRoute.size(); ++i) {
                     if (i != approximatesolution1.WalkingRoute.size() - 1) {
-                        std::cout << approximatesolution1.WalkingRoute[i] << ",";
+                        outputFile << approximatesolution1.WalkingRoute[i] << ",";
                     } else {
-                        std::cout << approximatesolution1.WalkingRoute[i] << "(" << approximatesolution1.walkingtime << ")" << std::endl;
+                        outputFile << approximatesolution1.WalkingRoute[i] << "(" << approximatesolution1.walkingtime << ")" << std::endl;
                     }
                 }
-                std::cout << "TotalTime1: " << (approximatesolution1.walkingtime + approximatesolution1.drivingtime) << std::endl;
+                outputFile << "TotalTime1: " << (approximatesolution1.walkingtime + approximatesolution1.drivingtime) << std::endl;
 
                 if (approximatesolution2.walkingtime != -1) {
-                    std::cout << "DrivingRoute2: ";
+                    outputFile << "DrivingRoute2: ";
                     for (size_t i = 0; i < approximatesolution2.DrivingRoute.size(); ++i) {
                         if (i != approximatesolution2.DrivingRoute.size() - 1) {
-                            std::cout << approximatesolution2.DrivingRoute[i] << ",";
+                            outputFile << approximatesolution2.DrivingRoute[i] << ",";
                         } else {
-                            std::cout << approximatesolution2.DrivingRoute[i] << "(" << approximatesolution2.drivingtime << ")" << std::endl;
+                            outputFile << approximatesolution2.DrivingRoute[i] << "(" << approximatesolution2.drivingtime << ")" << std::endl;
                         }
                     }
-                    std::cout << "ParkingNode2: " << approximatesolution2.ParkingNode << std::endl;
-                    std::cout << "WalkingRoute2: ";
+                    outputFile << "ParkingNode2: " << approximatesolution2.ParkingNode << std::endl;
+                    outputFile << "WalkingRoute2: ";
                     for (size_t i = 0; i < approximatesolution2.WalkingRoute.size(); ++i) {
                         if (i != approximatesolution2.WalkingRoute.size() - 1) {
-                            std::cout << approximatesolution2.WalkingRoute[i] << ",";
+                            outputFile << approximatesolution2.WalkingRoute[i] << ",";
                         } else {
-                            std::cout << approximatesolution2.WalkingRoute[i] << "(" << approximatesolution2.walkingtime << ")" << std::endl;
+                            outputFile << approximatesolution2.WalkingRoute[i] << "(" << approximatesolution2.walkingtime << ")" << std::endl;
                         }
                     }
-                    std::cout << "TotalTime2: " << (approximatesolution2.walkingtime + approximatesolution2.drivingtime) << std::endl;
+                    outputFile << "TotalTime2: " << (approximatesolution2.walkingtime + approximatesolution2.drivingtime) << std::endl;
                 }
             } else {
-                std::cout << "DrivingRoute:none" << std::endl;
-                std::cout << "ParkingNode:none" << std::endl;
-                std::cout << "WalkingRoute:none" << std::endl;
+                outputFile << "DrivingRoute:none" << std::endl;
+                outputFile << "ParkingNode:none" << std::endl;
+                outputFile << "WalkingRoute:none" << std::endl;
             }
     } else {
-        std::cout << "DrivingRoute: ";
+        outputFile << "DrivingRoute: ";
         for (size_t i = 0; i < bestDrivingRoute.size(); ++i) {
             if ( i != bestDrivingRoute.size() - 1) {
-            std::cout << bestDrivingRoute[i] << ",";
+            outputFile << bestDrivingRoute[i] << ",";
             } else {
-            std::cout << bestDrivingRoute[i] << "(" << bestDrivingTime << ")" << std::endl;
+            outputFile << bestDrivingRoute[i] << "(" << bestDrivingTime << ")" << std::endl;
             }
         }
-        std::cout << "ParkingNode: " << bestParkingNode << std::endl;
-        std::cout << "WalkingRoute: ";
+        outputFile << "ParkingNode: " << bestParkingNode << std::endl;
+        outputFile << "WalkingRoute: ";
         for (size_t i = 0; i < bestWalkingRoute.size(); ++i) {
             if (i != bestWalkingRoute.size() - 1) {
-            std::cout << bestWalkingRoute[i] << ",";
+            outputFile << bestWalkingRoute[i] << ",";
             } else {
-                std::cout << bestWalkingRoute[i] << "(" << bestWalkingTime << ")" << std::endl;
+                outputFile << bestWalkingRoute[i] << "(" << bestWalkingTime << ")" << std::endl;
             }
         }
-        std::cout << "TotalTime: " << bestTotalTime << std::endl;
+        outputFile << "TotalTime: " << bestTotalTime << std::endl;
     }
+
+    outputFile.close();
 }
