@@ -57,16 +57,16 @@ vector<int> createGraphs::findIsolatedNodesInGraph(Graph<int> g) {
  * @brief Creates a graph from data files in the specified folder
  *
  * Expects two files in the folder:
- * - Loc1.csv containing vertex information
- * - Dist1.csv containing edge information
+ * - Locations.csv containing vertex information
+ * - Distances.csv containing edge information
  *
  * @param folder The path to the folder containing the data files
  * @return Graph<int> The constructed graph
  */
 Graph<int> createGraphs::graphFromFile(string folder) {
     Graph<int> g;
-    string Location = folder + "/Loc1.csv";
-    string Distance = folder + "/Dist1.csv";
+    string Location = folder + "/Locations.csv";
+    string Distance = folder + "/Distances.csv";
 
     populateGraphs(&g, Location);
     populateEdges(&g, Distance);

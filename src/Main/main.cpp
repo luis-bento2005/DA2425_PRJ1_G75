@@ -18,12 +18,13 @@
 #include "Modes/driving.h"
 
 void CommandLine(Graph<int> &g);
-void BatchModeLine(Graph<int> &g);
-void BatchModeLineDriving(Graph<int> &g,std::ifstream &file);
-void BatchModeLineDriving_Walking(Graph<int> &g,std::ifstream &file);
-void ModeDriving(Graph<int> &g, int source, int destination);
-void ModeDrivingRestrictions(Graph<int> &g, int source, int destination);
-void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime);
+void BatchModeLine();
+void processModeBlock(const vector<string>& blockLines, const string& folder, std::ofstream& outputFile);
+void processDrivingBlock(Graph<int>& g, const vector<string>& blockLines, std::ofstream& outputFile);
+void processDrivingWalkingBlock(Graph<int>& g, const vector<string>& blockLines, std::ofstream& outputFile);
+void ModeDriving(Graph<int> &g, int source, int destination, std::ofstream& outputFile);
+void ModeDrivingRestrictions(Graph<int> &g, int source, int destination, std::ofstream& outputFile);
+void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime, std::ofstream& outputFile);
 void avoidNodesLine(Graph<int> &g);
 void avoidSegmentLine(Graph<int> &g);
 void printOutput();
@@ -57,18 +58,18 @@ ApproximateSolution approximatesolution1, approximatesolution2;
  * for route planning operations.
  */
 int main() {
-    string folder = "../../DA2425_PRJ1_G75/src/Main/CreateGraph";
 
     bool CML = true;
     while (CML) {
-        Graph<int> g = createGraphs::graphFromFile(folder);
         string input;
         std::cout<< "If you want to Use Command Line press 'Y', if you want to Use Batch Mode Press 'T'" <<endl;
         std::cin >> input;
         if (input == "Y" or input == "y") {
+            string folder = "../../DA2425_PRJ1_G75/src/Main/CreateGraph";
+            Graph<int> g = createGraphs::graphFromFile(folder);
             CommandLine(g);
         } else if (input == "T" or input == "t") {
-            BatchModeLine(g);
+            BatchModeLine();
         }
         else {
             CML = false;
@@ -107,19 +108,24 @@ void CommandLine(Graph<int> &g) {
     std::cout << "Source: "; std::cin >> source;
     std::cout << "Destination: "; std::cin >> destination;
 
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/output.txt");
+    if (!outputFile) {  // Check if the file opened successfully
+        std::cerr << "Error: Could not open the file!" << std::endl;
+        return;
+    }
 
     if (mode == "Driving" || mode == "driving") {
         if (restrictions) {
             enableRestrictions = true;
-            ModeDrivingRestrictions(g, source, destination);
+            ModeDrivingRestrictions(g, source, destination, outputFile);
         } else {
-            ModeDriving(g, source, destination);
+            ModeDriving(g, source, destination, outputFile);
         }
     } else if (mode == "Driving-walking" || mode == "driving-walking") {
         int maxWalkTime;
         enableRestrictions = true;
         std::cout << "MaxWalkTime: "; std::cin >> maxWalkTime;
-        ModeDrivingandWalking(g, source, destination, maxWalkTime);
+        ModeDrivingandWalking(g, source, destination, maxWalkTime, outputFile);
     }
     printOutput();
 
@@ -139,181 +145,173 @@ void printOutput() {
     }
 }
 
-void BatchModeLine(Graph<int> &g) {
+void BatchModeLine() {
+    string folder = "../../DA2425_PRJ1_G75/src/Main/CreateGraph";
     string filename = "../../DA2425_PRJ1_G75/src/Main/BatchMode/input.txt";
-    ifstream file;
-    file.open(filename);
+
+    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/output.txt");
+    if (!outputFile) {  // Check if the file opened successfully
+        std::cerr << "Error: Could not open the file!" << std::endl;
+        return;
+    }
+
+    ifstream file(filename);
     if (!file.is_open()) {
         cerr << "Error: Could not open file " << filename << endl;
         return;
     }
-    string Mode;
-    getline(file, Mode);
-    if (Mode == "Mode:Driving" || Mode == "Mode:driving") {
-        BatchModeLineDriving(g,file);
-    }
-    else if (Mode == "Mode:driving-walking" || Mode == "Mode:Driving-walking") {
-        BatchModeLineDriving_Walking(g,file);
-    }
 
+    vector<string> currentBlock;
+    string line;
+    while (getline(file, line)) {
+        if (line.find("Mode:") == 0) {
+            if (!currentBlock.empty()) {
+                processModeBlock(currentBlock, folder, outputFile);
+                currentBlock.clear();
+            }
+        }
+        currentBlock.push_back(line);
+    }
+    if (!currentBlock.empty()) {
+        processModeBlock(currentBlock, folder, outputFile);
+    }
     file.close();
+    outputFile.close();
 }
 
-void BatchModeLineDriving(Graph<int> &g,std::ifstream &file) {
-    int count = 0;
-    string line;
-    int source, destination;
-    while (getline(file, line)) {
-        istringstream iss(line);
-        string paramenter;
-        string value;
-        switch (count) {
-            case 0: {
-                getline(iss,paramenter,':');
-                getline(iss,value);
-                source = stoi(value);
-                break;
-            }
-            case 1: {
-                getline(iss,paramenter,':');
-                getline(iss,value);
-                destination = stoi(value);
-                break;
-            }
-            case 2: {
-                getline(iss,paramenter,':');
-                getline(iss,value);
-                std::istringstream iss2(value);
-                int Vertex;
-                while (iss2 >> Vertex) {
-                    g.findVertex(Vertex)->setAvailable(-1);
-                }
-                break;
-            }
-            case 3: {
-                getline(iss,paramenter,':');
-                getline(iss,value);
-                std::istringstream iss3(value);
-                char discard;
+void processModeBlock(const vector<string>& blockLines, const string& folder, std::ofstream& outputFile) {
+    if (blockLines.empty()) return;
 
-                while (iss3 >> discard && discard == '(') {
-                    int source1, destination1;
-                    char comma;
+    string modeLine = blockLines[0];
+    std::istringstream iss(modeLine);
+    string text;
+    string mode;
+    std::getline(iss, text,':');
+    getline(iss, mode);
 
-                    if (!(iss3 >> source1 >> comma >> destination1)) {
-                        break;
-                    }
-                    iss3 >> discard;
-                    if (discard != ')') {
-                        break;
-                    }
-                    g.findVertex(source1)->removeEdge(destination1);
-                    g.findVertex(destination1)->removeEdge(source1);
+    Graph<int> g = createGraphs::graphFromFile(folder);
 
-                    if (iss3.peek() == ',') {
-                        iss3.ignore();
-                    }
-                }
-                break;
-            }
-            case 4: {
-                getline(iss,paramenter,':');
-                getline(iss,value);
-                std::istringstream iss4(value);
-                int Vertex_Node;
-                while (iss4 >> Vertex_Node) {
-                    g.findVertex(Vertex_Node)->setAvailable(1);
-                    g.includenodevar = Vertex_Node;
-                }
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-        count++;
-    }
-
-    if (count == 2) {
-        ModeDriving(g, source, destination);
-    }
-    else {
-        ModeDrivingRestrictions(g, source, destination);
+    if (mode == "driving" || mode == "Driving") {
+        processDrivingBlock(g, blockLines, outputFile);
+    } else if (mode == "driving-walking" || mode == "Driving-walking") {
+        processDrivingWalkingBlock(g, blockLines, outputFile);
     }
 }
-void BatchModeLineDriving_Walking(Graph<int> &g,std::ifstream &file) {
-    string line;
-    int count = 0;
-    int source, destination, max_walk_time;
-    while (getline(file, line)) {
-        istringstream iss(line);
-        string paramenter;
-        string value;
-        switch (count) {
-            case 0: {
-                getline(iss,paramenter,':');
-                getline(iss,value);
-                source = stoi(value);
-                break;
+
+void processDrivingBlock(Graph<int>& g, const vector<string>& blockLines, std::ofstream& outputFile) {
+    int source = -1, destination = -1;
+    int IncludeNode = -1, AvoidNode = -1, AvoidSegment = -1;
+
+    for (size_t i = 1; i < blockLines.size(); ++i) {
+        string line = blockLines[i];
+        if (line.find("Source:") == 0) {
+            source = stoi(line.substr(7));
+        } else if (line.find("Destination:") == 0) {
+            destination = stoi(line.substr(12));
+        } else if (line.find("AvoidNodes:") == 0) {
+            std::string avoidNodes;
+            std::istringstream iss(line);
+            getline(iss, avoidNodes, ':');
+            int Vertex;
+            while (iss >> Vertex) {
+                g.findVertex(Vertex)->setAvailable(-1);
             }
-            case 1: {
-                getline(iss,paramenter,':');
-                getline(iss,value);
-                destination = stoi(value);
-                break;
-            }
-            case 2: {
-                getline(iss,paramenter,':');
-                getline(iss,value);
-                max_walk_time = stoi(value);
-                break;
-            }
-            case 3: {
-                getline(iss,paramenter,':');
-                getline(iss,value);
-                std::istringstream iss1(value);
-                char discard;
+            AvoidNode = 0;
+        } else if (line.find("AvoidSegments:") == 0) {
+            std::istringstream iss(line);
+            std::string avoidSegment;
+            getline(iss,avoidSegment,':');
 
-                while (iss1 >> discard && discard == '(') {
-                    int source1, destination1;
-                    char comma;
+            char discard;
 
-                    if (!(iss1 >> source1 >> comma >> destination1)) {
-                        break;
-                    }
+            while (iss >> discard && discard == '(') {
+                int source, destination;
+                char comma;
 
-                    iss1 >> discard;
-                    if (discard != ')') {
-                        break;
-                    }
-                    g.findVertex(source1)->removeEdge(destination1);
-                    g.findVertex(destination1)->removeEdge(source1);
-
-                    if (iss1.peek() == ',') {
-                        iss1.ignore();
-                    }
+                if (!(iss >> source >> comma >> destination)) {
+                    break;
                 }
-                break;
-            }
-            case 4: {
-                getline(iss,paramenter,':');
-                getline(iss,value);
-                std::istringstream iss2(value);
-                int Vertex_Node;
-                while (iss2 >> Vertex_Node) {
-                    g.findVertex(Vertex_Node)->setAvailable(1);
-                    g.includenodevar = Vertex_Node;
+
+                iss >> discard;
+                if (discard != ')') {
+                    break;
                 }
-                break;
+                g.findVertex(source)->removeEdge(destination);
+                g.findVertex(destination)->removeEdge(source);
+
+                if (iss.peek() == ',') {
+                    iss.ignore();
+                }
             }
-            default: {
-                break;
+            AvoidSegment = 0;
+        } else if (line.find("IncludeNode:") == 0) {
+            std::string includeNode;
+            std::istringstream iss(line);
+            getline(iss, includeNode, ':');
+            int Vertex;
+            while (iss >> Vertex) {
+                g.findVertex(Vertex)->setAvailable(1);
+                g.includenodevar = Vertex;
             }
+            IncludeNode = 0;
         }
-        count++;
     }
 
-    ModeDrivingandWalking(g,source,destination,max_walk_time);
+    if (source == -1 || destination == -1) {
+        cerr << "Missing Source/Destination in Driving block." << endl;
+        return;
+    }
+
+    if (AvoidNode == 0 || AvoidSegment == 0 || IncludeNode == 0) {
+        ModeDrivingRestrictions(g, source, destination, outputFile);
+    } else {
+        ModeDriving(g, source, destination, outputFile);
+    }
+}
+
+void processDrivingWalkingBlock(Graph<int>& g, const vector<string>& blockLines, std::ofstream& outputFile) {
+    int source = -1, destination = -1, maxWalkTime = -1;
+    vector<int> avoidNodes;
+    vector<pair<int, int>> avoidSegments;
+
+    for (size_t i = 1; i < blockLines.size(); ++i) {
+        string line = blockLines[i];
+        if (line.find("Source:") == 0) {
+            source = stoi(line.substr(7));
+        } else if (line.find("Destination:") == 0) {
+            destination = stoi(line.substr(12));
+        } else if (line.find("MaxWalkTime:") == 0) {
+            maxWalkTime = stoi(line.substr(12));
+        } else if (line.find("AvoidNodes:") == 0) {
+            string nodes = line.substr(11);
+            istringstream iss(nodes);
+            int node;
+            while (iss >> node) {
+                avoidNodes.push_back(node);
+                if (auto v = g.findVertex(node)) v->setAvailable(-1);
+            }
+        } else if (line.find("AvoidSegments:") == 0) {
+            string segments = line.substr(13);
+            istringstream iss(segments);
+            char c;
+            int src, dest;
+            while (iss >> c && c == '(') {
+                if (iss >> src >> c >> dest) {
+                    avoidSegments.emplace_back(src, dest);
+                    if (auto v = g.findVertex(src)) v->removeEdge(dest);
+                    if (auto v = g.findVertex(dest)) v->removeEdge(src);
+                }
+                while (iss >> c && c != ')');
+            }
+        }
+    }
+
+    if (source == -1 || destination == -1 || maxWalkTime == -1) {
+        cerr << "Missing parameters in Driving-Walking block." << endl;
+        return;
+    }
+
+    ModeDrivingandWalking(g, source, destination, maxWalkTime, outputFile);
 }
 
 /**
@@ -388,7 +386,7 @@ void includeNode(Graph<int> &g) {
  * @details Calculates both the optimal route and an alternative independent route.
  * Outputs the routes with their respective travel times.
  */
-void ModeDriving(Graph<int> &g, int source, int destination) {
+void ModeDriving(Graph<int> &g, int source, int destination, std::ofstream& outputFile) {
     dijkstra(&g, source);
     std::vector<int> bestDrivingRoute = getPath(&g, source, destination);
     int cost1 = getCost(&g, destination);
@@ -398,12 +396,6 @@ void ModeDriving(Graph<int> &g, int source, int destination) {
     dijkstra(&g, source);
     std::vector<int> AlternativeDrivingRoute = getPath(&g, source, destination);
     int cost2 = getCost(&g, destination);
-
-    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/output.txt");
-    if (!outputFile) {  // Check if the file opened successfully
-        std::cerr << "Error: Could not open the file!" << std::endl;
-        return;
-    }
 
     outputFile<<"Source: "<<source<<endl;
     outputFile<<"Destination: "<<destination<<endl;
@@ -431,7 +423,7 @@ void ModeDriving(Graph<int> &g, int source, int destination) {
             }
         }
     }
-    outputFile.close();
+    outputFile<<endl<<endl;
 }
 
 /**
@@ -445,7 +437,7 @@ void ModeDriving(Graph<int> &g, int source, int destination) {
  * - Avoided segments
  * - Required nodes to include
  */
-void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
+void ModeDrivingRestrictions(Graph<int> &g, int source, int destination, std::ofstream& outputFile) {
     if (enableRestrictions) {
         std::cin.ignore();
         std::cout<<"AvoidNodes: "; avoidNodesLine(g);
@@ -470,11 +462,6 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
         cost1 =getCost(&g, destination);
     }
 
-    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/output.txt");
-    if (!outputFile) {  // Check if the file opened successfully
-        std::cerr << "Error: Could not open the file!" << std::endl;
-        return;
-    }
     outputFile<<"Source: " <<source<<endl;
     outputFile<<"Destination: " <<destination<<endl;
     outputFile<<"RestrictedDrivingRoute: ";
@@ -489,7 +476,7 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
             }
         }
     }
-    outputFile<<endl;
+    outputFile<<endl<<endl;
 }
 
 /**
@@ -508,19 +495,12 @@ void ModeDrivingRestrictions(Graph<int> &g, int source, int destination) {
  * If no perfect route is found, provides up to two approximate solutions.
  */
 
-void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime) {
+void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWalkTime, std::ofstream& outputFile) {
     if (enableRestrictions) {
         std::cin.ignore();
         std::cout<<"AvoidNodes: "; avoidNodesLine(g);
         std::cout<<"AvoidSegments: "; avoidSegmentLine(g);
     }
-
-    std::ofstream outputFile("../../DA2425_PRJ1_G75/src/Main/BatchMode/output.txt");
-    if (!outputFile) {  // Check if the file opened successfully
-        std::cerr << "Error: Could not open the file!" << std::endl;
-        return;
-    }
-
 
     //ensuring source and destination are not parking nodes
     if (g.findVertex(source)->getParking() || g.findVertex(destination)->getParking()) {
@@ -671,6 +651,5 @@ void ModeDrivingandWalking(Graph<int> &g, int source, int destination, int maxWa
         }
         outputFile << "TotalTime: " << bestTotalTime << std::endl;
     }
-
-    outputFile.close();
+    outputFile<<endl;
 }
