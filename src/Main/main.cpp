@@ -149,7 +149,12 @@ void printOutput() {
 }
 
 /**
- * @brief Reads input file, processes the file in blocks, and writes an output file.
+ * @brief Handles batch Mode interface for route planning.
+ *
+ * @details This function processes input commands in batch mode:
+ * - Reads the `input.txt` file.
+ * - Processes the data in blocks based on the specified mode.
+ * - Writes the results to an output file.
  */
 void BatchModeLine() {
     string folder = "../../DA2425_PRJ1_G75/src/Main/CreateGraph";
@@ -295,8 +300,6 @@ void processDrivingBlock(Graph<int>& g, const vector<string>& blockLines, std::o
  */
 void processDrivingWalkingBlock(Graph<int>& g, const vector<string>& blockLines, std::ofstream& outputFile) {
     int source = -1, destination = -1, maxWalkTime = -1;
-    vector<int> avoidNodes;
-    vector<pair<int, int>> avoidSegments;
 
     for (size_t i = 1; i < blockLines.size(); ++i) {
         string line = blockLines[i];
@@ -307,25 +310,38 @@ void processDrivingWalkingBlock(Graph<int>& g, const vector<string>& blockLines,
         } else if (line.find("MaxWalkTime:") == 0) {
             maxWalkTime = stoi(line.substr(12));
         } else if (line.find("AvoidNodes:") == 0) {
-            string nodes = line.substr(11);
-            istringstream iss(nodes);
-            int node;
-            while (iss >> node) {
-                avoidNodes.push_back(node);
-                if (auto v = g.findVertex(node)) v->setAvailable(-1);
+            std::string avoidNodes;
+            std::istringstream iss(line);
+            getline(iss, avoidNodes, ':');
+            int Vertex;
+            while (iss >> Vertex) {
+                g.findVertex(Vertex)->setAvailable(-1);
             }
         } else if (line.find("AvoidSegments:") == 0) {
-            string segments = line.substr(13);
-            istringstream iss(segments);
-            char c;
-            int src, dest;
-            while (iss >> c && c == '(') {
-                if (iss >> src >> c >> dest) {
-                    avoidSegments.emplace_back(src, dest);
-                    if (auto v = g.findVertex(src)) v->removeEdge(dest);
-                    if (auto v = g.findVertex(dest)) v->removeEdge(src);
+            std::istringstream iss(line);
+            std::string avoidSegment;
+            getline(iss,avoidSegment,':');
+
+            char discard;
+
+            while (iss >> discard && discard == '(') {
+                int source, destination;
+                char comma;
+
+                if (!(iss >> source >> comma >> destination)) {
+                    break;
                 }
-                while (iss >> c && c != ')');
+
+                iss >> discard;
+                if (discard != ')') {
+                    break;
+                }
+                g.findVertex(source)->removeEdge(destination);
+                g.findVertex(destination)->removeEdge(source);
+
+                if (iss.peek() == ',') {
+                    iss.ignore();
+                }
             }
         }
     }
@@ -389,7 +405,6 @@ void avoidSegmentLine(Graph<int> &g) {
  * @brief Processes nodes to include in route from user input
  * @param g Reference to the graph object
  */
-
 void includeNode(Graph<int> &g) {
     std::string IncludeNode;
     std::getline(std::cin, IncludeNode);
