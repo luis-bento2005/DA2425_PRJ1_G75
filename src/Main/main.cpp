@@ -131,6 +131,9 @@ void CommandLine(Graph<int> &g) {
 
 }
 
+/**
+ * @brief Prints the output from output.txt.
+ */
 void printOutput() {
     string filename = "../../DA2425_PRJ1_G75/src/Main/BatchMode/output.txt";
     std::ifstream file;
@@ -145,6 +148,9 @@ void printOutput() {
     }
 }
 
+/**
+ * @brief Reads input file, processes the file in blocks, and writes an output file.
+ */
 void BatchModeLine() {
     string folder = "../../DA2425_PRJ1_G75/src/Main/CreateGraph";
     string filename = "../../DA2425_PRJ1_G75/src/Main/BatchMode/input.txt";
@@ -179,6 +185,12 @@ void BatchModeLine() {
     outputFile.close();
 }
 
+/**
+ * @brief Processes a block of input lines corresponding to a specific mode.
+ * @param blockLines Vector containing lines of mode-related commands.
+ * @param folder Path to graph data folder.
+ * @param outputFile Output stream to write results.
+ */
 void processModeBlock(const vector<string>& blockLines, const string& folder, std::ofstream& outputFile) {
     if (blockLines.empty()) return;
 
@@ -198,6 +210,12 @@ void processModeBlock(const vector<string>& blockLines, const string& folder, st
     }
 }
 
+/**
+ * @brief Processes driving mode input.
+ * @param g Graph object representing the map.
+ * @param blockLines Vector containing driving-related commands.
+ * @param outputFile Output stream to write results.
+ */
 void processDrivingBlock(Graph<int>& g, const vector<string>& blockLines, std::ofstream& outputFile) {
     int source = -1, destination = -1;
     int IncludeNode = -1, AvoidNode = -1, AvoidSegment = -1;
@@ -269,6 +287,12 @@ void processDrivingBlock(Graph<int>& g, const vector<string>& blockLines, std::o
     }
 }
 
+/**
+ * @brief Processes driving-walking mode input.
+ * @param g Graph object representing the map.
+ * @param blockLines Vector containing driving-walking-related commands.
+ * @param outputFile Output stream to write results.
+ */
 void processDrivingWalkingBlock(Graph<int>& g, const vector<string>& blockLines, std::ofstream& outputFile) {
     int source = -1, destination = -1, maxWalkTime = -1;
     vector<int> avoidNodes;
